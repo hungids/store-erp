@@ -155,154 +155,44 @@
         <table class="form">
             <!--{if $arrForm.customer_id}-->
             <tr>
-                <th><!--{t string="tpl_Member ID<span class='attention'> *</span>_01" escape="none"}--></th>
+                <th>Mã khách hàng</th>
                 <td><!--{$arrForm.customer_id|h}--></td>
             </tr>
             <!--{/if}-->
             <tr>
-                <th><!--{t string="tpl_Member status<span class='attention'> *</span>_01" escape="none"}--></th>
-                <td>
-                    <span class="attention"><!--{$arrErr.status}--></span>
-                    <span <!--{if $arrErr.status != ""}--><!--{sfSetErrorStyle}--><!--{/if}-->>
-                        <!--{html_radios name="status" options=$arrStatus separator=" " selected=$arrForm.status}-->
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <th><!--{t string="tpl_Name<span class='attention'> *</span>_02" escape="none"}--></th>
+                <th>Họ và Tên</th>
                 <td>
                     <span class="attention"><!--{$arrErr.name01}--><!--{$arrErr.name02}--></span>
                     <input type="text" name="name01" value="<!--{$arrForm.name01|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" <!--{if $arrErr.name01 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />&nbsp;&nbsp;<input type="text" name="name02" value="<!--{$arrForm.name02|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="30" class="box30" <!--{if $arrErr.name02 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
                 </td>
             </tr>
             <tr>
-                <th><!--{t string="tpl_Postal code_01" escape="none"}--></th>
-                <td>
-                    <!--{* <span class="attention"><!--{$arrErr.zip01}--><!--{$arrErr.zip02}--></span> *}-->
-                    <span class="attention"><!--{$arrErr.zipcode}--></span>
-
-                    <!--{*
-                    <!--{t string="tpl_Postal code mark_01"}--> <input type="text" name="zip01" value="<!--{$arrForm.zip01|h}-->" maxlength="<!--{$smarty.const.ZIP01_LEN}-->" size="6" class="box6" maxlength="3" <!--{if $arrErr.zip01 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> /> - <input type="text" name="zip02" value="<!--{$arrForm.zip02|h}-->" maxlength="<!--{$smarty.const.ZIP02_LEN}-->" size="6" class="box6" maxlength="4" <!--{if $arrErr.zip02 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-                    <a class="btn-normal" href="javascript:;" name="address_input" onclick="fnCallAddress('<!--{$smarty.const.INPUT_ZIP_URLPATH}-->', 'zip01', 'zip02', 'pref', 'addr01'); return false;"><!--{t string="tpl_Address input_01"}--></a>
-                    *}-->
-                    <!--{t string="tpl_Postal code mark_01"}--> <input type="text" name="zipcode" value="<!--{$arrForm.zipcode|h}-->" maxlength="<!--{$smarty.const.ZIPCODE_LEN}-->" size="15" class="box10" maxlength="10" <!--{if $arrErr.zipcode != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-                </td>
-            </tr>
-            <tr>
-                <th><!--{t string="tpl_Address<span class='attention'> *</span>_01" escape="none"}--></th>
+                <th>Địa chỉ</th>
                 <td>
                     <span class="attention"><!--{$arrErr.addr01}--><!--{$arrErr.addr02}--></span>
                     <input type="text" name="addr01" value="<!--{$arrForm.addr01|h}-->" size="60" class="box60" <!--{if $arrErr.addr01 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> /><br />
-                    <!--{$smarty.const.SAMPLE_ADDRESS1}--><br />
                     <input type="text" name="addr02" value="<!--{$arrForm.addr02|h}-->" size="60" class="box60" <!--{if $arrErr.addr02 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> /><br />
-                    <!--{$smarty.const.SAMPLE_ADDRESS2}-->
                 </td>
             </tr>
             <tr>
-                <th><!--{t string="tpl_E-mail address<span class='attention'> *</span>_01" escape="none"}--></th>
+                <th>Email</th>
                 <td>
                     <span class="attention"><!--{$arrErr.email}--></span>
                     <input type="text" name="email" value="<!--{$arrForm.email|h}-->" size="60" class="box60" <!--{if $arrErr.email != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
                 </td>
             </tr>
             <tr>
-                <th><!--{t string="tpl_Mobile e-mail address_01"}--></th>
+                <th>Số điện thoại</th>
                 <td>
-                    <span class="attention"><!--{$arrErr.email_mobile}--></span>
-                    <input type="text" name="email_mobile" value="<!--{$arrForm.email_mobile|h}-->" size="60" class="box60" <!--{if $arrErr.email_mobile != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
+                    <span class="attention"><!--{$arrErr.tel}--></span>
+                    <input type="text" name="tel" value="<!--{$arrForm.tel|h}-->" size="60" class="box60" <!--{if $arrErr.tel != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> /> (Nhập cách nhau bởi dấu phẩy )
                 </td>
             </tr>
             <tr>
-                <th><!--{t string="tpl_Telephone number<span class='attention'> *</span>_01" escape="none"}--></th>
-                <td>
-                    <span class="attention"><!--{$arrErr.tel01}--><!--{$arrErr.tel02}--><!--{$arrErr.tel03}--></span>
-                    <input type="text" name="tel01" value="<!--{$arrForm.tel01|h}-->" maxlength="<!--{$smarty.const.TEL_ITEM_LEN}-->" size="6" class="box6" <!--{if $arrErr.tel01 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> /> - <input type="text" name="tel02" value="<!--{$arrForm.tel02|h}-->" maxlength="<!--{$smarty.const.TEL_ITEM_LEN}-->" size="6" class="box6" <!--{if $arrErr.tel01 != "" || $arrErr.tel02 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> /> - <input type="text" name="tel03" value="<!--{$arrForm.tel03|h}-->" maxlength="<!--{$smarty.const.TEL_ITEM_LEN}-->" size="6" class="box6" <!--{if $arrErr.tel01 != "" || $arrErr.tel03 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-                </td>
-            </tr>
-            <tr>
-                <th><!--{t string="tpl_FAX_01"}--></th>
-                <td>
-                    <span class="attention"><!--{$arrErr.fax01}--><!--{$arrErr.fax02}--><!--{$arrErr.fax03}--></span>
-                    <input type="text" name="fax01" value="<!--{$arrForm.fax01|h}-->" maxlength="<!--{$smarty.const.TEL_ITEM_LEN}-->" size="6" class="box6" <!--{if $arrErr.fax01 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> /> - <input type="text" name="fax02" value="<!--{$arrForm.fax02|h}-->" maxlength="<!--{$smarty.const.TEL_ITEM_LEN}-->" size="6" class="box6" <!--{if $arrErr.fax01 != "" || $arrErr.fax02 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> /> - <input type="text" name="fax03" value="<!--{$arrForm.fax03|h}-->" maxlength="<!--{$smarty.const.TEL_ITEM_LEN}-->" size="6" class="box6" <!--{if $arrErr.fax01 != "" || $arrErr.fax03 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-                </td>
-            </tr>
-            <tr>
-                <th><!--{t string="tpl_Gender<span class='attention'> *</span>_01" escape="none"}--></th>
-                <td>
-                    <span class="attention"><!--{$arrErr.sex}--></span>
-                    <span <!--{if $arrErr.sex != ""}--><!--{sfSetErrorStyle}--><!--{/if}-->>
-                        <!--{html_radios name="sex" options=$arrSex separator=" " selected=$arrForm.sex}-->
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <th><!--{t string="tpl_Occupation_01"}--></th>
-                <td>
-                    <span class="attention"><!--{$arrErr.job}--></span>
-                    <select name="job" <!--{if $arrErr.job != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> >
-                    <option value="" selected="selected"><!--{t string="tpl_Please make a selection_01"}--></option>
-                    <!--{html_options options=$arrJob selected=$arrForm.job}-->
-                    </select>
-                </td>
-            </tr>
-            <tr>
-                <th><!--{t string="tpl_Date of birth_01"}--></th>
-                <td>
-                    <!--{assign var=errBirth value="`$arrErr.year``$arrErr.month``$arrErr.day`"}-->
-                    <!--{if $errBirth}-->
-                        <div class="attention"><!--{$errBirth}--></div>
-                    <!--{/if}-->
-                    <input id="datepickercustomer_edit"
-                           type="text"
-                           value="" <!--{if $arrErr.year != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-                    <input type="hidden" name="year" value="<!--{$arrForm.year}-->" />
-                    <input type="hidden" name="month" value="<!--{$arrForm.month}-->" />
-                    <input type="hidden" name="day" value="<!--{$arrForm.day}-->" />
-                </td>
-            </tr>
-            <tr>
-                <th><!--{t string="tpl_Password<span class='attention'> *</span>_01" escape="none"}--></th>
-                <td>
-                    <span class="attention"><!--{$arrErr.password}--><!--{$arrErr.password02}--></span>
-                    <input type="password" name="password" value="<!--{$arrForm.password|h}-->" size="30" class="box30" <!--{if $arrErr.password != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />&nbsp;<!--{t string="tpl_Lower-case alphanumeric characters T_ARG1 to T_ARG2 (Symbols cannot be used)_01" T_ARG1=$smarty.const.PASSWORD_MIN_LEN T_ARG2=$smarty.const.PASSWORD_MAX_LEN}--><br />
-                    <input type="password" name="password02" value="<!--{$arrForm.password02|h}-->" size="30" class="box30" <!--{if $arrErr.password02 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-                    <p><span class="attention mini"><!--{t string="tpl_Enter twice for confirmation_01"}--></span></p>
-                </td>
-            </tr>
-            <tr>
-                <th><!--{t string="tpl_Hint for when you have forgotten your password<span class='attention'> *</span>_01" escape="none"}--></th>
-                <td>
-                    <span class="attention"><!--{$arrErr.reminder}--><!--{$arrErr.reminder_answer}--></span>
-                    <!--{t string="tpl_Question:_01"}-->
-                    <select class="top" name="reminder" <!--{if $arrErr.reminder != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> >
-                        <option value="" selected="selected"><!--{t string="tpl_Please make a selection_01"}--></option>
-                        <!--{html_options options=$arrReminder selected=$arrForm.reminder}-->
-                    </select><br />
-                    <!--{t string="tpl_Answer:_01"}-->
-                    <input type="text" name="reminder_answer" value="<!--{$arrForm.reminder_answer|h}-->" size="30" class="box30" <!--{if $arrErr.reminder_answer != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-                </td>
-            </tr>
-            <tr>
-                <th><!--{t string="tpl_Mail magazine<span class='attention'> *</span>_01" escape="none"}--></th>
-                <td>
-                    <span class="attention"><!--{$arrErr.mailmaga_flg}--></span>
-                    <span <!--{if $arrErr.mailmaga_flg != ""}--><!--{sfSetErrorStyle}--><!--{/if}-->>
-                        <!--{html_radios name="mailmaga_flg" options=$arrMailMagazineType separator=" " selected=$arrForm.mailmaga_flg}-->
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <th><!--{t string="tpl_Memo for SHOP_01"}--></th>
+                <th>Ghi chú</th>
                 <td>
                     <span class="attention"><!--{$arrErr.note}--></span>
                     <textarea name="note" maxlength="<!--{$smarty.const.LTEXT_LEN}-->" <!--{if $arrErr.note != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> cols="60" rows="8" class="area60"><!--{"\n"}--><!--{$arrForm.note|h}--></textarea>
-                </td>
-            </tr>
-            <tr>
-                <th><!--{t string="tpl_Points in possession<span class='attention'> *</span>_01" escape="none"}--></th>
-                <td>
-                    <span class="attention"><!--{$arrErr.point}--></span>
-                    <!--{t string="pt_prefix"}--><input type="text" name="point" value="<!--{$arrForm.point|h}-->" maxlength="<!--{$smarty.const.TEL_LEN}-->" size="6" class="box6" <!--{if $arrErr.point != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> /> <!--{t string="pt_suffix"}-->
                 </td>
             </tr>
         </table>

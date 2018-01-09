@@ -208,8 +208,13 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex {
      * @return void
      */
     function lfInitParam(&$objFormParam) {
-        // 会員項目のパラメーター取得
-        SC_Helper_Customer_Ex::sfCustomerEntryParam($objFormParam, true);
+        $objFormParam->addParam(t('Tên 1'), 'name01', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' ,'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Tên 2'), 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK', 'NO_SPTAB', 'SPTAB_CHECK' , 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Địa chỉ 1'), 'addr01', MTEXT_LEN, 'aKV', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Địa chỉ 1'), 'addr02', MTEXT_LEN, 'aKV', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Email'), 'email', null, 'a', array('NO_SPTAB', 'EXIST_CHECK', 'EMAIL_CHECK', 'SPTAB_CHECK' ,'EMAIL_CHAR_CHECK'));
+        $objFormParam->addParam(t('Số Điện Thoại'), 'tel', LTEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Ghi chú'), 'note', LTEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
         // 検索結果一覧画面への戻り用パラメーター
         $objFormParam->addParam(t('c_Data for searching_01'), 'search_data', '', '', array(), '', false);
         // 会員購入履歴ページング用

@@ -1,0 +1,7 @@
+ALTER TABLE `dtb_customer`
+	CHANGE COLUMN `email` `email` TEXT NULL,
+	CHANGE COLUMN `status` `status` SMALLINT(6) NOT NULL DEFAULT '2';
+ALTER TABLE `dtb_customer`
+	CHANGE COLUMN `point` `point` DECIMAL(10,0) NULL DEFAULT '0';
+ALTER TABLE `dtb_customer`
+	ADD COLUMN `tel` TEXT NULL DEFAULT NULL;
