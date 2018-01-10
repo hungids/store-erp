@@ -38,7 +38,6 @@
         document.form1.action = './edit.php';
         document.form1.mode.value = "edit_search"
         document.form1['edit_customer_id'].value = customer_id;
-        document.form1.search_pageno.value = 1;
         document.form1.submit();
         return false;
     }
@@ -523,15 +522,11 @@
 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
 <input type="hidden" name="mode" value="search" />
 
-    <h2><!--{t string="tpl_Search condition settings_01"}--></h2>
+    <h2>Tìm Kiếm Khách Hàng</h2>
 
     <!--検索条件設定テーブルここから-->
     <table class="form">
         <!--{include file="`$smarty.const.TEMPLATE_ADMIN_REALDIR`/adminparts/form_customer_search.tpl"}-->
-        <tr>
-            <th><!--{t string="tpl_Member status_01"}--></th>
-            <td colspan="3"><!--{html_checkboxes name="search_status" options=$arrStatus separator="&nbsp;" selected=$arrForm.search_status.value}--></td>
-        </tr>
     </table>
     <div class="btn">
         <p class="page_rows"><!--{t string="tpl_Results displayed_01"}-->
@@ -543,7 +538,7 @@
         </p>
         <div class="btn-area">
             <ul>
-                <li><a class="btn-action" href="javascript:;" onclick="fnFormModeSubmit('search_form', 'search', '', ''); return false;"><span class="btn-next"><!--{t string="tpl_Search using above criteria_01"}--></span></a></li>
+                <li><a class="btn-action" href="javascript:;" onclick="fnFormModeSubmit('search_form', 'search', '', ''); return false;"><span class="btn-next">Tìm Kiếm</span></a></li>
             </ul>
         </div>
     </div>
@@ -565,7 +560,7 @@
     <!--{/if}-->
 <!--{/foreach}-->
 
-    <h2><!--{t string="tpl_List of search results_01"}--></h2>
+    <h2>Kết Quả</h2>
     <div class="btn">
         <!--検索結果数--><!--{t string="tpl_<span class='attention'>T_ARG1 items</span>&nbsp; were found._01" escape="none" T_ARG1=$tpl_linemax}-->
         <!--検索結果-->
@@ -579,33 +574,30 @@
     <!--検索結果表示テーブル-->
     <table class="list" id="customer-search-result">
         <col width="8%" />
-        <col width="10%" />
+        <col width="18%" />
         <col width="30%" />
-        <col width="8%" />
         <col width="30%" />
         <col width="7%" />
         <col width="7%" />
         <tr>
-            <th rowspan="2"><!--{t string="tpl_Type_01"}--></th>
-            <th rowspan="2"><!--{t string="tpl_Member ID_01"}--></th>
-            <th rowspan="2"><!--{t string="tpl_Name_02"}--></th>
-            <th rowspan="2"><!--{t string="tpl_Gender_01"}--></th>
-            <th><!--{t string="tpl_Phone Number_01"}--></th>
-            <th rowspan="2"><!--{t string="tpl_Edit_01"}--></th>
-            <th rowspan="2"><!--{t string="tpl_Remove_01"}--></th>
+            <th rowspan="2">Mã KH</th>
+            <th rowspan="2">Tên</th>
+            <th rowspan="2">Ghi Chú</th>
+            <th>Số Điện Thoại</th>
+            <th rowspan="2">Sửa</th>
+            <th rowspan="2">Xóa</th>
         </tr>
         <tr>
-            <th><!--{t string="tpl_E-mail address_01"}--></th>
+            <th>Email</th>
         </tr>
         <!--{foreach from=$arrData item=row}-->
             <tr>
-                <td class="center" rowspan="2"><!--{if $row.status eq 1}--><!--{t string="tpl_temporary _01"}--><!--{else}--><!--{t string="tpl_full _01"}--><!--{/if}--></td>
                 <td rowspan="2"><!--{$row.customer_id|h}--></td>
                 <td rowspan="2"><!--{$row.name01|h}--> <!--{$row.name02|h}--></td>
-                <td class="center" rowspan="2"><!--{$arrSex[$row.sex]|h}--></td>
-                <td><!--{$row.tel01|h}-->-<!--{$row.tel02|h}-->-<!--{$row.tel03|h}--></td>
-                <td class="center" rowspan="2"><span class="icon_edit"><a href="#" onclick="return fnEdit('<!--{$row.customer_id|h}-->');"><!--{t string="tpl_Edit_01"}--></a></span></td>
-                <td class="center" rowspan="2"><span class="icon_delete"><a href="#" onclick="return fnDelete('<!--{$row.customer_id|h}-->');"><!--{t string="tpl_Remove_01"}--></a></span></td>
+                <td class="center" rowspan="2"><!--{$row.note|h}--></td>
+                <td><!--{$row.tel|h}--></td>
+                <td class="center" rowspan="2"><span class="icon_edit"><a href="#" onclick="return fnEdit('<!--{$row.customer_id|h}-->');">Sửa</a></span></td>
+                <td class="center" rowspan="2"><span class="icon_delete"><a href="#" onclick="return fnDelete('<!--{$row.customer_id|h}-->');">Xóa</a></span></td>
             </tr>
             <tr>
                 <td><!--{mailto address=$row.email encode="javascript"}--></a><!--{if $row.status eq 1}--><br /><a href="#" onclick="return fnReSendMail('<!--{$row.customer_id|h}-->');"><!--{t string="tpl_Resending temporary registration e-mail_01"}--></a><!--{/if}--></td>

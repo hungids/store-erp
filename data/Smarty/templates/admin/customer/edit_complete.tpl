@@ -71,16 +71,16 @@
         <div class="complete-top"></div>
         <div class="contents">
             <div class="message">
-                <!--{t string="tpl_Registration is complete._01"}-->
+                Đăng Kí Hoàn Thành
             </div>
         </div>
         <div class="btn-area-top"></div>
         <div class="btn-area">
             <ul>
                 <!--{if $arrSearchData}-->
-                    <li><a class="btn-action" href="javascript:;" onclick="return fnReturn();"><span class="btn-prev"><!--{t string="tpl_Return_01"}--></span></a></li>
+                    <li><a class="btn-action" href="javascript:;" onclick="return fnReturn();"><span class="btn-prev">Quay Lại</span></a></li>
                 <!--{/if}-->
-                <li><a class="btn-action" href="javascript:;" onclick="fnFormModeSubmit('form1', 'complete_return', '', ''); return false;"><span class="btn-next"><!--{t string="tpl_Register new item_01"}--></span></a></li>
+                <li><a class="btn-action" href="javascript:;" onclick="fnFormModeSubmit('form1', 'complete_return', '', ''); return false;"><span class="btn-next">Đăng Kí Mới</span></a></li>
             </ul>
         </div>
         <div class="btn-area-bottom"></div>

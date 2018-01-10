@@ -518,44 +518,10 @@ class SC_Helper_Customer {
      * @return void
      */
     function sfSetSearchParam(&$objFormParam) {
-        $objFormParam->addParam(t('c_Member ID_01'), 'search_customer_id', ID_MAX_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Name_02'), 'search_name', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Name KANA_01'), 'search_kana', STEXT_LEN, 'CKV', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK', 'KANABLANK_CHECK'));
-        $objFormParam->addParam(t('c_Prefecture_01'), 'search_pref', INT_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Birthday (start year)_01'), 'search_b_start_year', 4, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Birthday (start month)_01'), 'search_b_start_month', 2, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Birthday (start date)_01'), 'search_b_start_day', 2, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Birthday (end year)_01'), 'search_b_end_year', 4, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Birthday (end month)_01'), 'search_b_end_month', 2, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Birthday (end date)_01'), 'search_b_end_day', 2, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Birth month_01'), 'search_birth_month', 2, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_E-mail address_01'), 'search_email', MTEXT_LEN, 'a', array('SPTAB_CHECK', 'EMAIL_CHAR_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('Mobile e-mail address'), 'search_email_mobile', MTEXT_LEN, 'a', array('SPTAB_CHECK', 'EMAIL_CHAR_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Telephone number_01'), 'search_tel', TEL_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Purchase amount (start)_01'), 'search_buy_total_from', PRICE_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Purchase amount (end)_01'), 'search_buy_total_to', PRICE_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Purchase frequency (start)_01'), 'search_buy_times_from', INT_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Purchase frequency (end)_01'), 'search_buy_times_to', INT_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Registration/update date (start year)_01'), 'search_start_year', 4, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Registration/update date (start month)_01'), 'search_start_month', 2, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Registration/update date (start date)_01'), 'search_start_day', 2, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Registration/update date (end year)_01'), 'search_end_year', 4, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Registration/update date (end month)_01'), 'search_end_month', 2, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Registration/update date (end date)_01'), 'search_end_day', 2, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Number of items displayed_01'), 'search_page_max', INT_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'), SEARCH_PMAX, false);
-        $objFormParam->addParam(t('c_Page number_01'), 'search_pageno', INT_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'), 1, false);
-        $objFormParam->addParam(t('c_Final purchase date (start year)_01'), 'search_buy_start_year', 4, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Final purchase date (start month)_01'), 'search_buy_start_month', 2, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Final purchase date (start day)_01'), 'search_buy_start_day', 2, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Final purchase date (end year)_01'), 'search_buy_end_year', 4, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Final purchase date (end month)_01'), 'search_buy_end_month', 2, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Final purchase date (end day)_01'), 'search_buy_end_day', 2, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Purchased product code_01'), 'search_buy_product_code', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Purchased product name_01'), 'search_buy_product_name', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Category_01'), 'search_category_id', INT_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Gender_01'), 'search_sex', INT_LEN, 'n', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Member status_01'), 'search_status', INT_LEN, 'n', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Occupation_01'), 'search_job', INT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Mã Khách Hàng'), 'search_customer_id', ID_MAX_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Tên'), 'search_name', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Email'), 'search_email', MTEXT_LEN, 'a', array('SPTAB_CHECK', 'EMAIL_CHAR_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Số Điện Thoại'), 'search_tel', TEL_LEN, 'n', array('NUM_CHECK','MAX_LENGTH_CHECK'));
     }
 
     /**

@@ -47,8 +47,8 @@ class LC_Page_Admin_Customer extends LC_Page_Admin_Ex {
         $this->tpl_mainno = 'customer';
         $this->tpl_subno = 'index';
         $this->tpl_pager = 'pager.tpl';
-        $this->tpl_maintitle = t('c_Member_02');
-        $this->tpl_subtitle = t('c_Member master_01');
+        $this->tpl_maintitle = t('Khách Hàng');
+        $this->tpl_subtitle = t('Danh Sách Khách Hàng');
 
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrPref = $masterData->getMasterData('mtb_pref');

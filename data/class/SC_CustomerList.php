@@ -80,7 +80,7 @@ class SC_CustomerList extends SC_SelectSql_Ex {
         // 電話番号
         if (!isset($this->arrSql['search_tel'])) $this->arrSql['search_tel'] = '';
         if (is_numeric($this->arrSql['search_tel'])) {
-            $this->setWhere('(' . $dbFactory->concatColumn(array('tel01', 'tel02', 'tel03')) . ' LIKE ?)');
+            $this->setWhere('( tel LIKE ?)');
             $searchTel = $this->addSearchStr($this->arrSql['search_tel']);
             $this->arrVal[] = str_replace('-', '', $searchTel);
         }
@@ -327,7 +327,7 @@ class SC_CustomerList extends SC_SelectSql_Ex {
 
     // 検索用SQL
     function getList() {
-        $this->select = 'SELECT customer_id,name01,name02,kana01,kana02,sex,email,email_mobile,tel01,tel02,tel03,pref,status,update_date,mailmaga_flg FROM dtb_customer ';
+        $this->select = 'SELECT customer_id,name01,name02,kana01,kana02,sex,email,email_mobile,tel01,tel02,tel03,pref,status,update_date,mailmaga_flg,tel,note FROM dtb_customer ';
         return $this->getSql(0);
     }
 
