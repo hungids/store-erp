@@ -920,6 +920,7 @@ class SC_Helper_Purchase {
                     ? 0 : $arrValues['customer_id'];
             $arrValues['create_date'] = 'CURRENT_TIMESTAMP';
             $arrValues['update_date'] = 'CURRENT_TIMESTAMP';
+            $arrValues['creator_id'] = $_SESSION['member_id'];
             $objQuery->insert($table, $arrValues);
 
             $this->sfUpdateOrderStatus($order_id, $status,

@@ -79,18 +79,21 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
         parent::init();
         $this->tpl_mainpage = 'order/edit.tpl';
         $this->tpl_mainno = 'order';
-        $this->tpl_maintitle = t('c_Orders_01');
-        $this->tpl_subtitle = t('c_Order receipt registration_01');
+        $this->tpl_maintitle = t('Vé');
+        $this->tpl_subtitle = t('Đăng Kí Vé');
 
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrPref = $masterData->getMasterData('mtb_pref');
         $this->arrORDERSTATUS = $masterData->getMasterData('mtb_order_status');
         $this->arrDeviceType = $masterData->getMasterData('mtb_device_type');
+        $this->arrPaymentStatus = $masterData->getMasterData('mtb_payments_status');
 
         $objDate = new SC_Date_Ex(RELEASE_YEAR);
         $this->arrYearShippingDate = $objDate->getYear('', date('Y'), '');
         $this->arrMonthShippingDate = $objDate->getMonth(true);
         $this->arrDayShippingDate = $objDate->getDay(true);
+        $this->arrHour = $objDate->getHour(true);
+        $this->arrMinutes = $objDate->getMinutes(true);
 
         // 支払い方法の取得
         $this->arrPayment = SC_Helper_DB_Ex::sfGetIDValueList('dtb_payment', 'payment_id', 'payment_method');
@@ -166,7 +169,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
                 $objFormParam->convParam();
                 $this->arrErr = $this->lfCheckError($objFormParam);
                 if (SC_Utils_Ex::isBlank($this->arrErr)) {
-                    $message = t('c_Order receipt has been edited._01');
+                    $message = t('Thành Công');
                     $order_id = $this->doRegister($order_id, $objPurchase, $objFormParam, $message, $arrValuesBefore);
                     if ($order_id >= 0) {
                         $this->setOrderToFormParam($objFormParam, $order_id);
@@ -286,111 +289,39 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
         // 検索条件のパラメーターを初期化
         parent::lfInitParam($objFormParam);
 
-        // お客様情報
-        $objFormParam->addParam(t('c_Name of orderer (last name)_01'), 'order_name01', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Name of orderer (first name)_01'), 'order_name02', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Name of orderer (last name) KANA_01'), 'order_kana01', STEXT_LEN, 'KVCa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Name of orderer (first name) KANA_01'), 'order_kana02', STEXT_LEN, 'KVCa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_E-mail address_01'), 'order_email', null, 'KVCa', array('NO_SPTAB', 'EMAIL_CHECK', 'EMAIL_CHAR_CHECK'));
-//        $objFormParam->addParam(t('c_Postal code 1_01'), 'order_zip01', ZIP01_LEN, 'n', array('NUM_CHECK', 'NUM_COUNT_CHECK'));
-//        $objFormParam->addParam(t('c_Postal code 2_01'), 'order_zip02', ZIP02_LEN, 'n', array('NUM_CHECK', 'NUM_COUNT_CHECK'));
-        $objFormParam->addParam(t('c_Postal code_01'), 'order_zipcode', ZIPCODE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Prefecture_01'), 'order_pref', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Address 1_01'), 'order_addr01', MTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Address 2_01'), 'order_addr02', MTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Telephone number 1_01'), 'order_tel01', TEL_ITEM_LEN, 'n', array('MAX_LENGTH_CHECK' ,'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Telephone number 2_01'), 'order_tel02', TEL_ITEM_LEN, 'n', array('MAX_LENGTH_CHECK' ,'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Telephone number 3_01'), 'order_tel03', TEL_ITEM_LEN, 'n', array('MAX_LENGTH_CHECK' ,'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Fax number 1_01'), 'order_fax01', TEL_ITEM_LEN, 'n', array('MAX_LENGTH_CHECK' ,'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Fax number 2_01'), 'order_fax02', TEL_ITEM_LEN, 'n', array('MAX_LENGTH_CHECK' ,'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Fax number 3_01'), 'order_fax03', TEL_ITEM_LEN, 'n', array('MAX_LENGTH_CHECK' ,'NUM_CHECK'));
-
-        // 受注商品情報
-        $objFormParam->addParam(t('c_Discount_01'), 'discount', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam(t('c_Shipping fee_01'), 'deliv_fee', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam(t('c_Processing fee_01'), 'charge', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-
-        // ポイント機能ON時のみ
-        if (USE_POINT !== false) {
-            $objFormParam->addParam(t('c_Used points_01'), 'use_point', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        }
-
-        $objFormParam->addParam(t('c_Delivery company_01'), 'deliv_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Payment method_02'), 'payment_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Response status_01'), 'status', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Payment method name_01'), 'payment_method');
-
-        // 受注詳細情報
-        $objFormParam->addParam(t('c_Product type ID_01'), 'product_type_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam(t('c_Unit price_01'), 'price', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam(t('c_Quantity_01'), 'quantity', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam(t('c_Product ID_01'), 'product_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam(t('c_Product specification ID_01'), 'product_class_id', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam(t('c_Point grant rate_01'), 'point_rate');
-        $objFormParam->addParam(t('c_Product code_01'), 'product_code');
-        $objFormParam->addParam(t('c_Product name_01'), 'product_name');
-        $objFormParam->addParam(t('c_Standard name 1_01'), 'classcategory_name1');
-        $objFormParam->addParam(t('c_Standard name 2_01'), 'classcategory_name2');
-        $objFormParam->addParam(t('c_Memo_01'), 'note', MTEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Item number for deletion_01'), 'delete_no', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-
-        // DB読込用
-        $objFormParam->addParam(t('c_Subtotal_01'), 'subtotal');
-        $objFormParam->addParam(t('c_Total_01'), 'total');
-        $objFormParam->addParam(t('c_Payment total_01'), 'payment_total');
-        $objFormParam->addParam(t('c_Points added_01'), 'add_point');
-        $objFormParam->addParam(t('c_Birthday points_01'), 'birth_point', null, 'n', array(), 0);
-        $objFormParam->addParam(t('c_Total consumption sales tax_01'), 'tax');
-        $objFormParam->addParam(t('c_Final number of points registered_01'), 'total_point');
-        $objFormParam->addParam(t('c_Member ID_01'), 'customer_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam(t('c_Member ID_01'), 'edit_customer_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam(t('c_Current points_01'), 'customer_point');
-        $objFormParam->addParam(t('c_Points before order receipt_01'), 'point');
-        $objFormParam->addParam(t('c_Order number_01'), 'order_id');
-        $objFormParam->addParam(t('c_Date of order receipt_01'), 'create_date');
-        $objFormParam->addParam(t('c_Shipment date_01'), 'commit_date');
-        $objFormParam->addParam(t('c_Remarks_01'), 'message');
-        $objFormParam->addParam(t('c_Date of deposit_01'), 'payment_date');
-        $objFormParam->addParam(t('c_Terminal type_01'), 'device_type_id');
-
-        // 複数情報
-        $objFormParam->addParam(t('c_Delivery quantity_01'), 'shipping_quantity', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), 1);
-        $objFormParam->addParam(t('c_Delivery ID_01'), 'shipping_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), 0);
-        $objFormParam->addParam(t('c_Name (last name)_01'), 'shipping_name01', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Name (first name)_01'), 'shipping_name02', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Name (last name) KANA_01'), 'shipping_kana01', STEXT_LEN, 'KVCa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Name (first name) KANA_01'), 'shipping_kana02', STEXT_LEN, 'KVCa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-//        $objFormParam->addParam(t('c_Postal code 1_01'), 'shipping_zip01', ZIP01_LEN, 'n', array('NUM_CHECK', 'NUM_COUNT_CHECK'));
-//        $objFormParam->addParam(t('c_Postal code 2_01'), 'shipping_zip02', ZIP02_LEN, 'n', array('NUM_CHECK', 'NUM_COUNT_CHECK'));
-        $objFormParam->addParam(t('c_Postal code_01'), 'shipping_zipcode', ZIPCODE_LEN, 'n', array('NUM_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Prefecture_01'), 'shipping_pref', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Address 1_01'), 'shipping_addr01', MTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Address 2_01'), 'shipping_addr02', MTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Telephone number 1_01'), 'shipping_tel01', TEL_ITEM_LEN, 'n', array('MAX_LENGTH_CHECK' ,'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Telephone number 2_01'), 'shipping_tel02', TEL_ITEM_LEN, 'n', array('MAX_LENGTH_CHECK' ,'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Telephone number 3_01'), 'shipping_tel03', TEL_ITEM_LEN, 'n', array('MAX_LENGTH_CHECK' ,'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Fax number 1_01'), 'shipping_fax01', TEL_ITEM_LEN, 'n', array('MAX_LENGTH_CHECK' ,'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Fax number 2_01'), 'shipping_fax02', TEL_ITEM_LEN, 'n', array('MAX_LENGTH_CHECK' ,'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Fax number 3_01'), 'shipping_fax03', TEL_ITEM_LEN, 'n', array('MAX_LENGTH_CHECK' ,'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Delivery time ID_01'), 'time_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Delivery date (Year)_01'), 'shipping_date_year', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Delivery date (Month)_01'), 'shipping_date_month', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Delivery date (Date)_01'), 'shipping_date_day', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Delivery date_01'), 'shipping_date', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Quantity of delivered products_01'), 'shipping_product_quantity', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-
-        $objFormParam->addParam(t('c_Product specification ID_01'), 'shipment_product_class_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Product code_01'), 'shipment_product_code');
-        $objFormParam->addParam(t('c_Product name_01'), 'shipment_product_name');
-        $objFormParam->addParam(t('c_Standard name 1_01'), 'shipment_classcategory_name1');
-        $objFormParam->addParam(t('c_Standard name 2_01'), 'shipment_classcategory_name2');
-        $objFormParam->addParam(t('c_Unit price_01'), 'shipment_price', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-        $objFormParam->addParam(t('c_Quantity_01'), 'shipment_quantity', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
-
-        $objFormParam->addParam(t('c_Product item number_01'), 'no', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Additional product specification ID_01'), 'add_product_class_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Repair product specification ID_01'), 'edit_product_class_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        // Khách đặt
+        $objFormParam->addParam('KH ID', 'customer_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
+        $objFormParam->addParam('会員ID', 'edit_customer_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'), '0');
+        $objFormParam->addParam(t('Tên 1'), 'order_name01', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Tên 2'), 'order_name02', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Email'), 'order_email', null, 'KVCa', array('NO_SPTAB', 'EMAIL_CHECK', 'EMAIL_CHAR_CHECK'));
+        $objFormParam->addParam(t('Địa Chỉ 1'), 'order_addr01', MTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Địa Chỉ 2'), 'order_addr02', MTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Số Điện Thoại'), 'order_tel', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Ghi Chú'), 'message', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Ngày Tạo'), 'create_date', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Người Tạo'), 'creator_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        // Ngày Bay
+        $objFormParam->addParam(t('Năm'), 'year', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Tháng'), 'month', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Ngày'), 'day', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        // Giờ Bay
+        $objFormParam->addParam(t('Giờ'), 'fly_hour', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Phút'), 'fly_minute', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('c_Anchor key_01'), 'anchor_key', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        // Thông tin vé
+        $objFormParam->addParam(t('Mã CODE'), 'order_code', STEXT_LEN, 'KVa', array('EXIST_CHECK', 'SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Trạng Thái'), 'status', INT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam(t('Xuất Phát'), 'order_dept', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Điểm Đến'), 'order_arriv', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Số Lượng Khách'), 'number_pax', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Giá NET'), 'price_net', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Giá Bán'), 'price_sale', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Lãi'), 'earning', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Tình Trạng Thanh Toán'), 'payment_status', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Thời Hạn Giữ Chỗ'), 'due_day', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Ghi Chú'), 'memo1', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Ghi Chú Khách Hàng'), 'memo2', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
     }
 
     /**
@@ -540,6 +471,15 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
          * が渡ってくるため, $arrOrder で上書きする.
          */
         $arrOrder = $objPurchase->getOrder($order_id);
+
+        if (isset($arrOrder['start_date'])) {
+            $start_date = explode(' ', $arrOrder['start_date']);
+            list($arrOrder['year'], $arrOrder['month'], $arrOrder['day']) = explode('-',$start_date[0]);
+        }
+        if (isset($arrOrder['start_time'])) {
+            list($arrOrder['fly_hour'], $arrOrder['fly_minute'], $arrOrder['fly_second']) = explode(':',$arrOrder['start_time']);
+        }
+
         $objFormParam->setParam($arrOrder);
 
         // ポイントを設定
@@ -650,6 +590,18 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
         $objQuery =& SC_Query_Ex::getSingletonInstance();
         $arrValues = $objFormParam->getDbArray();
 
+        if (!SC_Utils_Ex::isBlank($objFormParam->getValue('year'))) {
+            $arrValues['start_date'] = $objFormParam->getValue('year') . '/'
+                . $objFormParam->getValue('month') . '/'
+                    . $objFormParam->getValue('day')
+                    . ' 00:00:00';
+        }
+
+        if (!SC_Utils_Ex::isBlank($objFormParam->getValue('fly_hour'))) {
+            $arrValues['start_time'] = $objFormParam->getValue('fly_hour') . ':'
+                . $objFormParam->getValue('fly_minute') . ':00';
+        }
+
         $where = 'order_id = ?';
 
         $objQuery->begin();
@@ -662,100 +614,6 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
 
         // 受注テーブルの更新
         $order_id = $objPurchase->registerOrder($order_id, $arrValues);
-
-        $arrDetail = $objFormParam->getSwapArray(array(
-                'product_id',
-                'product_class_id',
-                'product_code',
-                'product_name',
-                'price', 'quantity',
-                'point_rate',
-                'classcategory_name1',
-                'classcategory_name2',
-        ));
-
-        // 変更しようとしている商品情報とDBに登録してある商品情報を比較することで、更新すべき数量を計算
-        $max = count($arrDetail);
-        $k = 0;
-        $arrStockData = array();
-        for ($i = 0; $i < $max; $i++) {
-            if (!empty($arrDetail[$i]['product_id'])) {
-                $arrPreDetail = $objQuery->select('*', 'dtb_order_detail', 'order_id = ? AND product_class_id = ?', array($order_id, $arrDetail[$i]['product_class_id']));
-                if (!empty($arrPreDetail) && $arrPreDetail[0]['quantity'] != $arrDetail[$i]['quantity']) {
-                    // 数量が変更された商品
-                    $arrStockData[$k]['product_class_id'] = $arrDetail[$i]['product_class_id'];
-                    $arrStockData[$k]['quantity'] = $arrPreDetail[0]['quantity'] - $arrDetail[$i]['quantity'];
-                    ++$k;
-                } elseif (empty($arrPreDetail)) {
-                    // 新しく追加された商品 もしくは 違う商品に変更された商品
-                    $arrStockData[$k]['product_class_id'] = $arrDetail[$i]['product_class_id'];
-                    $arrStockData[$k]['quantity'] = -$arrDetail[$i]['quantity'];
-                    ++$k;
-                }
-                $objQuery->delete('dtb_order_detail', 'order_id = ? AND product_class_id = ?', array($order_id, $arrDetail[$i]['product_class_id']));
-            }
-        }
-
-        // 上記の新しい商品のループでDELETEされなかった商品は、注文より削除された商品
-        $arrPreDetail = $objQuery->select('*', 'dtb_order_detail', 'order_id = ?', array($order_id));
-        foreach ($arrPreDetail AS $key=>$val) {
-            $arrStockData[$k]['product_class_id'] = $val['product_class_id'];
-            $arrStockData[$k]['quantity'] = $val['quantity'];
-            ++$k;
-        }
-
-        // 受注詳細データの更新
-        $objPurchase->registerOrderDetail($order_id, $arrDetail);
-
-        // 在庫数調整
-        if (ORDER_DELIV != $arrValues['status']
-            && ORDER_CANCEL != $arrValues['status']) {
-            foreach ($arrStockData AS $stock) {
-                $objQuery->update('dtb_products_class', array(),
-                                  'product_class_id = ?',
-                                  array($stock['product_class_id']),
-                                  array('stock' => 'stock + ?'),
-                                  array($stock['quantity']));
-            }
-        }
-
-        $arrAllShipping = $objFormParam->getSwapArray($this->arrShippingKeys);
-        $arrAllShipmentItem = $objFormParam->getSwapArray($this->arrShipmentItemKeys);
-
-        $arrDelivTime = $objPurchase->getDelivTime($objFormParam->getValue('deliv_id'));
-
-        $arrShippingValues = array();
-        foreach ($arrAllShipping as $shipping_index => $arrShipping) {
-            $shipping_id = $arrShipping['shipping_id'];
-            $arrShippingValues[$shipping_index] = $arrShipping;
-
-            $arrShippingValues[$shipping_index]['shipping_date']
-                = SC_Utils_Ex::sfGetTimestamp($arrShipping['shipping_date_year'],
-                                              $arrShipping['shipping_date_month'],
-                                              $arrShipping['shipping_date_day']);
-
-            // 配送業者IDを取得
-            $arrShippingValues[$shipping_index]['deliv_id'] = $objFormParam->getValue('deliv_id');
-
-            // お届け時間名称を取得
-            $arrShippingValues[$shipping_index]['shipping_time'] = $arrDelivTime[$arrShipping['time_id']];
-
-            // 複数配送の場合は配送商品を登録
-            if (!SC_Utils_Ex::isBlank($arrAllShipmentItem)) {
-                $arrShipmentValues = array();
-
-                foreach ($arrAllShipmentItem[$shipping_index] as $key => $arrItem) {
-                    $i = 0;
-                    foreach ($arrItem as $item) {
-                        $arrShipmentValues[$shipping_index][$i][str_replace('shipment_', '', $key)] = $item;
-                        $i++;
-                    }
-                }
-                $objPurchase->registerShipmentItem($order_id, $shipping_id,
-                                                   $arrShipmentValues[$shipping_index]);
-            }
-        }
-        $objPurchase->registerShipping($order_id, $arrShippingValues, false);
         $objQuery->commit();
         return $order_id;
     }
@@ -891,7 +749,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
             $objFormParam->setValue('order_' . $key, $val);
         }
         $objFormParam->setValue('customer_id', $customer_id);
-        $objFormParam->setValue('customer_point', $arrCustomer['point']);
+        $objFormParam->setValue('message', $arrCustomer['note']);
     }
 
     /**
