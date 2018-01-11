@@ -338,7 +338,7 @@
         <tr>
             <th>Ghi Chú</th>
             <td>
-                <!--{assign var=key value="memo1"}-->
+                <!--{assign var=key value="memo01"}-->
                 <span class="attention"><!--{$arrErr[$key]}--></span>
                 <textarea name="<!--{$key}-->" maxlength="<!--{$arrForm[$key].length}-->" cols="80" rows="6" class="area80" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" ><!--{"\n"}--><!--{$arrForm[$key].value|h}--></textarea>
             </td>
@@ -346,7 +346,7 @@
         <tr>
             <th>Ghi Chú Danh Sách Hành Khách</th>
             <td>
-                <!--{assign var=key value="memo2"}-->
+                <!--{assign var=key value="memo02"}-->
                 <span class="attention"><!--{$arrErr[$key]}--></span>
                 <textarea name="<!--{$key}-->" maxlength="<!--{$arrForm[$key].length}-->" cols="80" rows="6" class="area80" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" ><!--{"\n"}--><!--{$arrForm[$key].value|h}--></textarea>
             </td>

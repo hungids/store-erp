@@ -83,11 +83,11 @@ self.moveTo(20,20);self.focus();
         </tr>
         <tr>
             <th>Ghi Chú</th>
-            <td><!--{$arrForm.memo1.value}--></td>
+            <td><!--{$arrForm.memo01.value}--></td>
         </tr>
         <tr>
-            <th>Ghi Chú</th>
-            <td><!--{$arrForm.memo2.value}--></td>
+            <th>Ghi Chú Khách Hàng</th>
+            <td><!--{$arrForm.memo02.value}--></td>
         </tr>
     </table>
 
@@ -121,10 +121,6 @@ self.moveTo(20,20);self.focus();
                 <!--{t string="tpl_Postal code mark_01"}-->&nbsp;<!--{$arrForm.order_zipcode.value|h}--><br />
                 <!--{$arrPref[$arrForm.order_pref.value]|h}--><!--{$arrForm.order_addr01.value|h}--> <!--{$arrForm.order_addr02.value|h}-->
             </td>
-        </tr>
-        <tr>
-            <th>Ghi Chú</th>
-            <td><!--{$arrForm.message.value|h|nl2br}--></td>
         </tr>
     </table>
     <!--▲お客様情報ここまで-->

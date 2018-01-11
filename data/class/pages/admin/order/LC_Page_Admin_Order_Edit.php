@@ -186,7 +186,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
                     $objFormParam->convParam();
                     $this->arrErr = $this->lfCheckError($objFormParam);
                     if (SC_Utils_Ex::isBlank($this->arrErr)) {
-                        $message = t('c_Order receipt has been registered._01');
+                        $message = t('Đăng Kí Thành Công');
                         $order_id = $this->doRegister(null, $objPurchase, $objFormParam, $message, $arrValuesBefore);
                         if ($order_id >= 0) {
                             $this->tpl_mode = 'edit';
@@ -324,8 +324,8 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
         $objFormParam->addParam(t('Nợ'), 'debt_status', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Số Tiền Nợ'), 'debt_amount', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Thời Hạn Giữ Chỗ'), 'due_day', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('Ghi Chú'), 'memo1', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('Ghi Chú Khách Hàng'), 'memo2', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Ghi Chú'), 'memo01', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Ghi Chú Khách Hàng'), 'memo02', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
     }
 
     /**

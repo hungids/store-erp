@@ -209,7 +209,7 @@
         <input type="hidden" name="search_pageno" value="<!--{$tpl_pageno}-->">
         <input type="hidden" name="edit_customer_id" value="<!--{$edit_customer_id}-->" >
 
-        <h2><!--{t string="tpl_Purchase history list_01"}--></h2>
+        <h1>Vé Đã Mua</h1>
         <!--{if $tpl_linemax > 0}-->
         <p><!--購入履歴一覧--><!--{t string="tpl_<span class='attention'>T_ARG1 items</span>&nbsp; were found._01" escape="none" T_ARG1=$tpl_linemax}--></p>
 
@@ -218,19 +218,22 @@
             <!--{* 購入履歴一覧表示テーブル *}-->
             <table class="list">
                 <tr>
-                    <th><!--{t string="tpl_Date_01"}--></th>
-                    <th><!--{t string="tpl_Order number_01"}--></th>
-                    <th><!--{t string="tpl_Purchase amount_01"}--></th>
-                    <th><!--{t string="tpl_Shipment date_01"}--></th>
-                    <th><!--{t string="tpl_Payment method_01"}--></th>
+                    <th>Ngày Đặt</th>
+                    <th>CODE</th>
+                    <th>Hành Trình</th>
+                    <th>Ngày Bay</th>
+                    <th>Thanh Toán</th>
+                    <th>Ghi Chú Hành Khách</th>
                 </tr>
                 <!--{section name=cnt loop=$arrPurchaseHistory}-->
                     <tr>
                         <td><!--{$arrPurchaseHistory[cnt].create_date|sfDispDBDate}--></td>
-                        <td class="center"><a href="../order/edit.php?order_id=<!--{$arrPurchaseHistory[cnt].order_id}-->" ><!--{$arrPurchaseHistory[cnt].order_id}--></a></td>
-                        <td class="center"><!--{t string="tpl_&#36; T_ARG1_01" escape="none" T_ARG1=$arrPurchaseHistory[cnt].payment_total|number_format}--></td>
-                        <td class="center"><!--{if $arrPurchaseHistory[cnt].status eq 5}--><!--{$arrPurchaseHistory[cnt].commit_date|sfDispDBDate}--><!--{else}--><!--{t string="tpl_Not shipped_01"}--><!--{/if}--></td>
-                        <td class="center"><!--{$arrPurchaseHistory[cnt].payment_method|h}--></td>
+                        <td class="center"><a href="../order/edit.php?order_id=<!--{$arrPurchaseHistory[cnt].order_id}-->" ><!--{$arrPurchaseHistory[cnt].order_code}--></a></td>
+                        <td class="center"><!--{$arrPurchaseHistory[cnt].order_dept|h}--> - <!--{$arrPurchaseHistory[cnt].order_arriv|h}--></td>
+                        <td class="center"><!--{$arrPurchaseHistory[cnt].start_date|sfDispDBDate:false}--> - <!--{$arrPurchaseHistory[cnt].start_time}--></td>
+                        <!--{assign var=key value=`$arrPurchaseHistory[cnt].debt_status`}-->
+                        <td class="center"><!--{$arrDebtStatus[$key]|h}--></td>
+                        <td class="center"><!--{$arrPurchaseHistory[cnt].memo02|h}--></td>
                     </tr>
                 <!--{/section}-->
             </table>

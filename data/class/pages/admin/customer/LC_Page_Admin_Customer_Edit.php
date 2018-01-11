@@ -57,6 +57,9 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex {
         $this->arrReminder = $masterData->getMasterData('mtb_reminder');
         $this->arrStatus = $masterData->getMasterData('mtb_customer_status');
         $this->arrMailMagazineType = $masterData->getMasterData('mtb_mail_magazine_type');
+        $this->arrPaymentStatus = $masterData->getMasterData('mtb_payments_status');
+        $this->arrDebtStatus = $masterData->getMasterData('mtb_debt_status');
+        $this->arrMembers = SC_Helper_DB_Ex::sfGetIDValueList('dtb_member', 'member_id', "name");
 
         // 日付プルダウン設定
         $objDate = new SC_Date_Ex(BIRTH_YEAR);
