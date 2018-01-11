@@ -47,14 +47,17 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex {
         $this->tpl_mainno = 'order';
         $this->tpl_subno = 'index';
         $this->tpl_pager = 'pager.tpl';
-        $this->tpl_maintitle = t('c_Orders_01');
-        $this->tpl_subtitle = t('c_Order master_01');
+        $this->tpl_maintitle = t('Vé');
+        $this->tpl_subtitle = t('Danh Sách Vé');
 
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrORDERSTATUS = $masterData->getMasterData('mtb_order_status');
         $this->arrORDERSTATUS_COLOR = $masterData->getMasterData('mtb_order_status_color');
         $this->arrSex = $masterData->getMasterData('mtb_sex');
         $this->arrPageMax = $masterData->getMasterData('mtb_page_max');
+        $this->arrPaymentStatus = $masterData->getMasterData('mtb_payments_status');
+        $this->arrDebtStatus = $masterData->getMasterData('mtb_debt_status');
+        $this->arrMembers = SC_Helper_DB_Ex::sfGetIDValueList('dtb_member', 'member_id', "name");
 
         $objDate = new SC_Date_Ex();
         // 登録・更新日検索用
@@ -68,6 +71,8 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex {
         // 月日の設定
         $this->arrMonth = $objDate->getMonth();
         $this->arrDay = $objDate->getDay();
+        $this->arrHour = $objDate->getHour(true);
+        $this->arrMinutes = $objDate->getMinutes(true);
 
         // 支払い方法の取得
         $this->arrPayments = SC_Helper_DB_Ex::sfGetIDValueList('dtb_payment', 'payment_id', 'payment_method');
@@ -185,34 +190,18 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex {
      * @return void
      */
     function lfInitParam(&$objFormParam) {
+        $objFormParam->addParam(t('CODE'), 'search_order_code', STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('c_Order number 1_01'), 'search_order_id1', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam(t('c_Order number 2_01'), 'search_order_id2', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Response status_01'), 'search_order_status', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Name of orderer_01'), 'search_order_name', STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Name of orderer KANA_01'), 'search_order_kana', STEXT_LEN, 'KVCa', array('KANA_CHECK','MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Trạng Thái'), 'search_order_status', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam(t('NV Đặt'), 'search_order_member', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam(t('Tên Khách Hàng'), 'search_order_name', STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('c_Gender_01'), 'search_order_sex', INT_LEN, 'n', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Age 1_01'), 'search_age1', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Age 2_01'), 'search_age2', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_E-mail address_01'), 'search_order_email', STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_TEL_01'), 'search_order_tel', STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('c_Payment method_01'), 'search_payment_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Purchase amount 1_01'), 'search_total1', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Purchase amount 2_01'), 'search_total2', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam(t('Email'), 'search_order_email', STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Số Điện Thoại'), 'search_order_tel', STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Nợ'), 'search_order_debt', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam(t('Thanh Toán'), 'search_payments_status', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam(t('c_Number of items displayed_01'), 'search_page_max', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        // 受注日
-        $objFormParam->addParam(t('c_Start year_01'), 'search_sorderyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Start month_01'), 'search_sordermonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Start day_01'), 'search_sorderday', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Completion year_01'), 'search_eorderyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Completion month_01'), 'search_eordermonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Completion date_01'), 'search_eorderday', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        // 更新日
-        $objFormParam->addParam(t('c_Start year_01'), 'search_supdateyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Start month_01'), 'search_supdatemonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Start day_01'), 'search_supdateday', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Completion year_01'), 'search_eupdateyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Completion month_01'), 'search_eupdatemonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
-        $objFormParam->addParam(t('c_Completion date_01'), 'search_eupdateday', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
         // 生年月日
         $objFormParam->addParam(t('c_Start year_01'), 'search_sbirthyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam(t('c_Start month_01'), 'search_sbirthmonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
@@ -220,6 +209,12 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex {
         $objFormParam->addParam(t('c_Completion year_01'), 'search_ebirthyear', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam(t('c_Completion month_01'), 'search_ebirthmonth', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam(t('c_Completion date_01'), 'search_ebirthday', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+
+        $objFormParam->addParam(t('Giờ bắt đầu'), 'search_shour', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam(t('Phút bắt đầu'), 'search_sminute', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam(t('Giờ kết thúc'), 'search_ehour', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam(t('Phút kết thúc'), 'search_eminute', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+
         $objFormParam->addParam(t('c_Purchased product_01'),'search_product_name',STEXT_LEN,'KVa',array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('c_Page feed number_01'),'search_pageno', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam(t('c_Order ID_01'), 'order_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
@@ -312,12 +307,20 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex {
                 }
                 break;
             case 'search_order_tel':
-                $where .= ' AND (' . $dbFactory->concatColumn(array('order_tel01', 'order_tel02', 'order_tel03')) . ' LIKE ?)';
+                $where .= ' AND (order_tel LIKE ?)';
                 $arrValues[] = sprintf('%%%d%%', preg_replace('/[()-]+/','', $objFormParam->getValue($key)));
                 break;
             case 'search_order_email':
                 $where .= ' AND order_email LIKE ?';
                 $arrValues[] = sprintf('%%%s%%', $objFormParam->getValue($key));
+                break;
+            case 'search_order_code':
+                $where .= ' AND order_code LIKE ?';
+                $arrValues[] = sprintf('%%%s%%', $objFormParam->getValue($key));
+                break;
+            case 'search_order_debt':
+                $where .= ' AND debt_status = ?';
+                $arrValues[] = sprintf('%d', $objFormParam->getValue($key));
                 break;
             case 'search_payment_id':
                 $tmp_where = '';
@@ -377,19 +380,89 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex {
                 $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_sbirthyear'),
                                                     $objFormParam->getValue('search_sbirthmonth'),
                                                     $objFormParam->getValue('search_sbirthday'));
-                $where.= ' AND order_birth >= ?';
+                $where.= ' AND start_date >= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_ebirthyear':
                 $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_ebirthyear'),
                                                     $objFormParam->getValue('search_ebirthmonth'),
                                                     $objFormParam->getValue('search_ebirthday'), true);
-                $where.= ' AND order_birth <= ?';
+                $where.= ' AND start_date <= ?';
                 $arrValues[] = $date;
                 break;
+            case 'search_shour':
+                $time = $objFormParam->getValue('search_shour');
+                if (!SC_Utils_Ex::isBlank($objFormParam->getValue('search_sminute'))) {
+                    $time .= ':' . $objFormParam->getValue('search_sminute') . ':00';
+                } else {
+                    $time .= ':00:00';
+                }
+                $where.= ' AND start_time >= ?';
+                $arrValues[] = $time;
+                break;
+            case 'search_ehour':
+                $time = $objFormParam->getValue('search_ehour');
+                if (!SC_Utils_Ex::isBlank($objFormParam->getValue('search_eminute'))) {
+                    $time .= ':' . $objFormParam->getValue('search_eminute') . ':00';
+                } else {
+                    $time .= ':00:00';
+                }
+                $where.= ' AND start_time <= ?';
+                $arrValues[] = $time;
+                break;
             case 'search_order_status':
-                $where.= ' AND status = ?';
-                $arrValues[] = $objFormParam->getValue($key);
+                $tmp_where = '';
+                foreach ($objFormParam->getValue($key) as $element) {
+                    if ($element != '') {
+                        if ($tmp_where == '') {
+                            $tmp_where .= ' AND (status = ?';
+                        } else {
+                            $tmp_where .= ' OR status = ?';
+                        }
+                        $arrValues[] = $element;
+                    }
+                }
+
+                if (!SC_Utils_Ex::isBlank($tmp_where)) {
+                    $tmp_where .= ')';
+                    $where .= " $tmp_where ";
+                }
+                break;
+            case 'search_order_member':
+                $tmp_where = '';
+                foreach ($objFormParam->getValue($key) as $element) {
+                    if ($element != '') {
+                        if ($tmp_where == '') {
+                            $tmp_where .= ' AND (creator_id = ?';
+                        } else {
+                            $tmp_where .= ' OR creator_id = ?';
+                        }
+                        $arrValues[] = $element;
+                    }
+                }
+                
+                if (!SC_Utils_Ex::isBlank($tmp_where)) {
+                    $tmp_where .= ')';
+                    $where .= " $tmp_where ";
+                }
+                break;
+            case 'search_payments_status':
+                $tmp_where = '';
+                foreach ($objFormParam->getValue($key) as $element) {
+                    if ($element != '') {
+                        if ($tmp_where == '') {
+                            $tmp_where .= ' AND (payment_status = ?';
+                        } else {
+                            $tmp_where .= ' OR payment_status = ?';
+                        }
+                        $arrValues[] = $element;
+                    }
+                }
+                
+                if (!SC_Utils_Ex::isBlank($tmp_where)) {
+                    $tmp_where .= ')';
+                    $where .= " $tmp_where ";
+                }
                 break;
             default:
                 break;

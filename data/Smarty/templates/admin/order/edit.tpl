@@ -82,10 +82,10 @@
 
     $(function(){
         var dateFormat = $.datepicker.regional['<!--{$smarty.const.LANG_CODE}-->'].dateFormat;
-        <!--{if $arrForm.year != '' && $arrForm.month != '' && $arrForm.day != ''}-->
-        var year  = '<!--{$arrForm.year|h}-->';
-        var month = '<!--{$arrForm.month|h}-->';
-        var day   = '<!--{$arrForm.day|h}-->';
+        <!--{if $arrForm.year.value != '' && $arrForm.month.value != '' && $arrForm.day.value != ''}-->
+        var year  = '<!--{$arrForm.year.value|h}-->';
+        var month = '<!--{$arrForm.month.value|h}-->';
+        var day   = '<!--{$arrForm.day.value|h}-->';
         var ymd = $.datepicker.formatDate(dateFormat, new Date(year, month - 1, day));
         $("#datepickerorder_edit").val(ymd);
         <!--{/if}-->
@@ -108,7 +108,7 @@
             setDatecustomer_edit(year + '/' + month + '/' + day);
         },
         showButtonPanel: true,
-        beforeShow: showAdditionalButtoncustomer_edit,       
+        beforeShow: showAdditionalButtoncustomer_edit,
         onChangeMonthYear: showAdditionalButtoncustomer_edit
         });
         
@@ -129,7 +129,16 @@
             }
             setDatecustomer_edit(year + '/' + month + '/' + day);
         });
-        
+
+        $('.price_check').change( function() {
+            var price_net = $('#price_net').val();
+            var price_sale = $('#price_sale').val();
+            var earning = 0;
+            if (price_net > 0 && price_sale > price_net) {
+                earning = price_sale - price_net;
+            }
+            $('#earning').val(earning);
+        });
     });
     
     var btn = $('<button class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all" type="button">Clear</button>');
@@ -196,7 +205,8 @@
         </tr>
         <tr>
             <th>Người Tạo (NV)</th>
-            <td><!--{$arrForm.creator_id.value|h}--><input type="hidden" name="create_date" value="<!--{$arrForm.create_date.value|h}-->" /></td>
+            <!--{assign var=key value=$arrForm.creator_id.value}-->
+            <td><!--{$arrMembers[$key]}--><input type="hidden" name="creator_id" value="<!--{$arrForm.creator_id.value|h}-->" /></td>
         </tr>
         <tr>
             <th>Mã CODE</th>
@@ -272,7 +282,7 @@
             <td>
                 <!--{assign var=key1 value="price_net"}-->
                 <span class="attention"><!--{$arrErr[$key1]}--></span>
-                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
+                <input type="text" id="price_net" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30 price_check" /> VND
             </td>
         </tr>
         <tr>
@@ -280,7 +290,7 @@
             <td>
                 <!--{assign var=key1 value="price_sale"}-->
                 <span class="attention"><!--{$arrErr[$key1]}--></span>
-                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
+                <input type="text" id="price_sale" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30 price_check" /> VND
             </td>
         </tr>
         <tr>
@@ -288,7 +298,7 @@
             <td>
                 <!--{assign var=key1 value="earning"}-->
                 <span class="attention"><!--{$arrErr[$key1]}--></span>
-                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
+                <input type="text" readonly id="earning" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" /> VND
             </td>
         </tr>
         <tr>
@@ -299,6 +309,22 @@
                 <select name="<!--{$key1}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
                     <!--{html_options options=$arrPaymentStatus selected=$arrForm[$key1].value}-->
                 </select>
+            </td>
+        </tr>
+        <tr>
+            <th>Nợ</th>
+            <td>
+                <!--{assign var=key1 value="debt_status"}-->
+                <span class="attention"><!--{$arrErr[$key1]}--></span>
+                <!--{html_radios name='debt_status' options=$arrDebtStatus selected=$arrForm[$key1].value separator='<br />'}-->
+            </td>
+        </tr>
+        <tr>
+            <th>Số Tiền Nợ</th>
+            <td>
+                <!--{assign var=key1 value="debt_amount"}-->
+                <span class="attention"><!--{$arrErr[$key1]}--></span>
+                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" /> VND
             </td>
         </tr>
         <tr>

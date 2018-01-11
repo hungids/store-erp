@@ -46,12 +46,15 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex {
         $this->tpl_mainpage = 'order/status.tpl';
         $this->tpl_mainno = 'order';
         $this->tpl_subno = 'status';
-        $this->tpl_maintitle = t('c_Orders_01');
-        $this->tpl_subtitle = t('c_Response status_02');
+        $this->tpl_maintitle = t('Vé');
+        $this->tpl_subtitle = t('Trạng Thái Vé');
 
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrORDERSTATUS = $masterData->getMasterData('mtb_order_status');
         $this->arrORDERSTATUS_COLOR = $masterData->getMasterData('mtb_order_status_color');
+        $this->arrPaymentStatus = $masterData->getMasterData('mtb_payments_status');
+        $this->arrDebtStatus = $masterData->getMasterData('mtb_debt_status');
+        $this->arrMembers = SC_Helper_DB_Ex::sfGetIDValueList('dtb_member', 'member_id', "name");
     }
 
     /**

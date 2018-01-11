@@ -87,6 +87,8 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
         $this->arrORDERSTATUS = $masterData->getMasterData('mtb_order_status');
         $this->arrDeviceType = $masterData->getMasterData('mtb_device_type');
         $this->arrPaymentStatus = $masterData->getMasterData('mtb_payments_status');
+        $this->arrDebtStatus = $masterData->getMasterData('mtb_debt_status');
+        $this->arrMembers = SC_Helper_DB_Ex::sfGetIDValueList('dtb_member', 'member_id', "name");
 
         $objDate = new SC_Date_Ex(RELEASE_YEAR);
         $this->arrYearShippingDate = $objDate->getYear('', date('Y'), '');
@@ -302,7 +304,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
         $objFormParam->addParam(t('Ngày Tạo'), 'create_date', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Người Tạo'), 'creator_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK'));
         // Ngày Bay
-        $objFormParam->addParam(t('Năm'), 'year', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Năm'), 'year', STEXT_LEN, 'n', array('EXIST_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Tháng'), 'month', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Ngày'), 'day', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
         // Giờ Bay
@@ -319,6 +321,8 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
         $objFormParam->addParam(t('Giá Bán'), 'price_sale', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Lãi'), 'earning', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Tình Trạng Thanh Toán'), 'payment_status', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Nợ'), 'debt_status', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Số Tiền Nợ'), 'debt_amount', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Thời Hạn Giữ Chỗ'), 'due_day', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Ghi Chú'), 'memo1', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Ghi Chú Khách Hàng'), 'memo2', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));

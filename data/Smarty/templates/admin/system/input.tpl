@@ -43,50 +43,63 @@ self.moveTo(20,20);self.focus();
     <col width="20%" />
     <col width="80%" />
     <tr>
-        <th><!--{t string="tpl_Name_03"}--></th>
+        <th>Tên</th>
         <td>
             <!--{if $arrErr.name}--><span class="attention"><!--{$arrErr.name}--></span><!--{/if}-->
             <input type="text" name="name" size="30" class="box30" value="<!--{$arrForm.name|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" />
-            <span class="attention"><!--{t string="tpl_* Enter required_01"}--></span>
+            <span class="attention">* Bắt Buộc</span>
         </td>
     </tr>
     <tr>
-        <th><!--{t string="tpl_Affiliation_01"}--></th>
+        <th>Mã NV</th>
         <td>
             <!--{if $arrErr.department}--><span class="attention"><!--{$arrErr.department}--></span><!--{/if}-->
             <input type="text" name="department" size="30" class="box30" value="<!--{$arrForm.department|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" />
+            <span class="attention">* Bắt Buộc</span>
         </td>
     </tr>
     <tr>
-        <th><!--{t string="tpl_Login ID_01"}--></th>
+        <th>Số Điện Thoại</th>
+        <td>
+            <!--{if $arrErr.tel}--><span class="attention"><!--{$arrErr.tel}--></span><!--{/if}-->
+            <input type="text" name="tel" size="30" class="box30" value="<!--{$arrForm.tel|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" />
+        </td>
+    </tr>
+    <tr>
+        <th>Địa Chỉ</th>
+        <td>
+            <!--{if $arrErr.addr}--><span class="attention"><!--{$arrErr.addr}--></span><!--{/if}-->
+            <input type="text" name="addr" size="30" class="box30" value="<!--{$arrForm.addr|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" />
+        </td>
+    </tr>
+    <tr>
+        <th>Tài Khoản</th>
         <td>
             <!--{if $arrErr.login_id}--><span class="attention"><!--{$arrErr.login_id}--></span><!--{/if}-->
             <input type="text" name="login_id" size="20" class="box20"    value="<!--{$arrForm.login_id|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->"/>
-            <span class="attention"><!--{t string="tpl_* Enter required_01"}--></span><br />
-            <!--{t string="tpl_* Alphanumeric characters T_ARG1 to T_ARG2 _01" T_ARG1=$smarty.const.ID_MIN_LEN T_ARG2=$smarty.const.ID_MAX_LEN}-->
+            <span class="attention">* Bắt Buộc</span><br />
         </td>
     </tr>
     <tr>
-        <th><!--{t string="tpl_Password_01"}--></th>
+        <th>Mật Khẩu</th>
         <td>
             <!--{if $arrErr.password}--><span class="attention"><!--{$arrErr.password}--><!--{$arrErr.password02}--></span><!--{/if}-->
             <input type="password" name="password" size="20" class="box20" value="<!--{$arrForm.password}-->" onfocus="<!--{$tpl_onfocus}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->"/>
-            <span class="attention"><!--{t string="tpl_* Enter required_01"}--></span><br />
-            <!--{t string="tpl_* Alphanumeric characters T_ARG1 to T_ARG2 _01" T_ARG1=$smarty.const.ID_MIN_LEN T_ARG2=$smarty.const.ID_MAX_LEN}-->
+            <span class="attention">* Bắt Buộc</span><br />
             <br />
             <input type="password" name="password02" size="20" class="box20" value="<!--{$arrForm.password02}-->" onfocus="<!--{$tpl_onfocus}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->"/>
             <p><span class="attention mini"><!--{t string="tpl_Enter twice for confirmation_01"}--></span></p>
         </td>
     </tr>
     <tr>
-        <th><!--{t string="tpl_Access_01"}--></th>
+        <th>Quyền</th>
         <td>
             <!--{if $arrErr.authority}--><span class="attention"><!--{$arrErr.authority}--></span><!--{/if}-->
             <select name="authority">
-                <option value=""><!--{t string="tpl_Please make a selection_01"}--></option>
+                <option value="">Vui Lòng Chọn</option>
                 <!--{html_options options=$arrAUTHORITY selected=$arrForm.authority}-->
             </select>
-            <span class="attention"><!--{t string="tpl_* Enter required_01"}--></span>
+            <span class="attention">* Bắt Buộc</span>
         </td>
     </tr>
     <tr>
@@ -96,14 +109,14 @@ self.moveTo(20,20);self.focus();
             <!--{assign var=key value="work"}-->
             <input type="radio" id="<!--{$key}-->_1" name="<!--{$key}-->" value="1" style="<!--{$arrErr.work|sfGetErrorColor}-->" <!--{$arrForm.work|sfGetChecked:1}--> /><label for="<!--{$key}-->_1"><!--{t string="tpl_Operating_01"}--></label>
             <input type="radio" id="<!--{$key}-->_0" name="<!--{$key}-->" value="0" style="<!--{$arrErr.work|sfGetErrorColor}-->" <!--{$arrForm.work|sfGetChecked:0}--> /><label for="<!--{$key}-->_0"><!--{t string="tpl_Not operating_01"}--></label>
-            <span class="attention"><!--{t string="tpl_* Enter required_01"}--></span>
+            <span class="attention">* Bắt Buộc</span>
         </td>
     </tr>
 </table>
 
 <div class="btn-area">
     <ul>
-        <li><a class="btn-action" href="javascript:;" onclick="fnFormModeSubmit('form1', '<!--{$tpl_mode|h}-->', '', ''); return false;"><span class="btn-next"><!--{t string="tpl_Save and continue_01"}--></span></a></li>
+        <li><a class="btn-action" href="javascript:;" onclick="fnFormModeSubmit('form1', '<!--{$tpl_mode|h}-->', '', ''); return false;"><span class="btn-next">Lưu</span></a></li>
     </ul>
 </div>
 </form>

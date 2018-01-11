@@ -575,46 +575,31 @@
 <form name="search_form" id="search_form" method="post" action="?">
 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
 <input type="hidden" name="mode" value="search" />
-    <h2><!--{t string="tpl_Search condition settings_01"}--></h2>
+    <h2>Tìm Kiếm Vé</h2>
     <!--{* 検索条件設定テーブルここから *}-->
     <table>
         <tr>
-            <th><!--{t string="tpl_Order number_01"}--></th>
+            <th>CODE</th>
             <td>
-                <!--{assign var=key1 value="search_order_id1"}-->
-                <!--{assign var=key2 value="search_order_id2"}-->
+                <!--{assign var=key1 value="search_order_code"}-->
                 <span class="attention"><!--{$arrErr[$key1]}--></span>
-                <span class="attention"><!--{$arrErr[$key2]}--></span>
-                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="6" class="box6" />
-                <!--{t string="-"}-->
-                <input type="text" name="<!--{$key2}-->" value="<!--{$arrForm[$key2].value|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" size="6" class="box6" />
+                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
             </td>
-            <th><!--{t string="tpl_Response status_01"}--></th>
+            <th>Tên Khách Hàng</th>
             <td>
-                <!--{assign var=key value="search_order_status"}-->
+                <!--{assign var=key value="search_order_name"}-->
                 <span class="attention"><!--{$arrErr[$key]}--></span>
-                <select name="<!--{$key}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
-                <option value=""><!--{t string="tpl_Please make a selection_01"}--></option>
-                <!--{html_options options=$arrORDERSTATUS selected=$arrForm[$key].value}-->
-                </select>
+                <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="30" class="box30" />
             </td>
         </tr>
         <tr>
-            <th><!--{t string="tpl_Name_02"}--></th>
-            <td colspan="3">
-            <!--{assign var=key value="search_order_name"}-->
-            <span class="attention"><!--{$arrErr[$key]}--></span>
-            <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="60" class="box60" />
-            </td>
-        </tr>
-        <tr>
-            <th><!--{t string="tpl_E-mail address_01"}--></th>
+            <th>Email</th>
             <td>
                 <!--{assign var=key value="search_order_email"}-->
                 <span class="attention"><!--{$arrErr[$key]}--></span>
                 <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="30" class="box30" />
             </td>
-            <th><!--{t string="tpl_Phone Number_01"}--></th>
+            <th>Số Điện Thoại</th>
             <td>
                 <!--{assign var=key value="search_order_tel"}-->
                 <span class="attention"><!--{$arrErr[$key]}--></span>
@@ -622,95 +607,87 @@
             </td>
         </tr>
         <tr>
-            <th><!--{t string="tpl_Date of birth_01"}--></th>
+            <th>Trạng Thái Vé</th>
+            <td colspan="3">
+                <!--{assign var=key value="search_order_status"}-->
+                <span class="attention"><!--{$arrErr[$key]}--></span>
+                <!--{html_checkboxes name="$key" options=$arrORDERSTATUS selected=$arrForm[$key].value}-->
+            </td>
+        </tr>
+        <tr>
+            <th>NV Đặt</th>
+            <td colspan="3">
+                <!--{assign var=key value="search_order_member"}-->
+                <span class="attention"><!--{$arrErr[$key]}--></span>
+                <!--{html_checkboxes name="$key" options=$arrMembers selected=$arrForm[$key].value}-->
+            </td>
+        </tr>
+        <tr>
+            <th>Ngày Bay</th>
             <td colspan="3">
             <!--{if $arrErr.search_sbirthyear || $arrErr.search_ebirthyear}-->
-            <span class="attention"><!--{$arrErr.search_sbirthyear}--></span>
-            <span class="attention"><!--{$arrErr.search_ebirthyear}--></span>
+                <span class="attention"><!--{$arrErr.search_sbirthyear}--></span>
+                <span class="attention"><!--{$arrErr.search_ebirthyear}--></span>
             <!--{/if}-->
-            <input id="datepickersearch_sbirth" type="text" value="" <!--{if $arrErr.search_sbirthyear != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-            <input type="hidden" name="search_sbirthyear" value="<!--{$arrForm.search_sbirthyear.value|h}-->" />
-            <input type="hidden" name="search_sbirthmonth" value="<!--{$arrForm.search_sbirthmonth.value|h}-->" />
-            <input type="hidden" name="search_sbirthday" value="<!--{$arrForm.search_sbirthday.value|h}-->" />
+                <input id="datepickersearch_sbirth" type="text" value="" <!--{if $arrErr.search_sbirthyear != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
+                <input type="hidden" name="search_sbirthyear" value="<!--{$arrForm.search_sbirthyear.value|h}-->" />
+                <input type="hidden" name="search_sbirthmonth" value="<!--{$arrForm.search_sbirthmonth.value|h}-->" />
+                <input type="hidden" name="search_sbirthday" value="<!--{$arrForm.search_sbirthday.value|h}-->" />
             <!--{t string="-"}-->
-            <input id="datepickersearch_ebirth" type="text" value="" <!--{if $arrErr.search_ebirthyear != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-            <input type="hidden" name="search_ebirthyear" value="<!--{$arrForm.search_ebirthyear.value|h}-->" />
-            <input type="hidden" name="search_ebirthmonth" value="<!--{$arrForm.search_ebirthmonth.value|h}-->" />
-            <input type="hidden" name="search_ebirthday" value="<!--{$arrForm.search_ebirthday.value|h}-->" />
+                <input id="datepickersearch_ebirth" type="text" value="" <!--{if $arrErr.search_ebirthyear != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
+                <input type="hidden" name="search_ebirthyear" value="<!--{$arrForm.search_ebirthyear.value|h}-->" />
+                <input type="hidden" name="search_ebirthmonth" value="<!--{$arrForm.search_ebirthmonth.value|h}-->" />
+                <input type="hidden" name="search_ebirthday" value="<!--{$arrForm.search_ebirthday.value|h}-->" />
             </td>
         </tr>
         <tr>
-            <th><!--{t string="tpl_Gender_01"}--></th>
+            <th>Giờ Bay</th>
             <td colspan="3">
-            <!--{assign var=key value="search_order_sex"}-->
-            <span class="attention"><!--{$arrErr[$key]}--></span>
-            <!--{html_checkboxes name="$key" options=$arrSex selected=$arrForm[$key].value}-->
+                <!--{assign var=key1 value="search_shour"}-->
+                <!--{assign var=key2 value="search_sminute"}-->
+                <!--{assign var=key3 value="search_ehour"}-->
+                <!--{assign var=key4 value="search_eminute"}-->
+                <!--{if $arrErr.search_shour || $arrErr.search_ehour}-->
+                    <span class="attention"><!--{$arrErr.search_shour}--></span>
+                    <span class="attention"><!--{$arrErr.search_ehour}--></span>
+                <!--{/if}-->
+                <select name="<!--{$key1}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
+                    <option value="">Chọn</option>
+                    <!--{html_options options=$arrHour selected=$arrForm[$key1].value}-->
+                </select>
+                <span>Giờ</span>
+                <select name="<!--{$key2}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
+                    <option value="">Chọn</option>
+                    <!--{html_options options=$arrMinutes selected=$arrForm[$key2].value}-->
+                </select>
+                <span>Phút</span>
+                [--- Đến ---]
+                <select name="<!--{$key3}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
+                    <option value="">Chọn</option>
+                    <!--{html_options options=$arrHour selected=$arrForm[$key3].value}-->
+                </select>
+                <span>Giờ</span>
+                <select name="<!--{$key4}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
+                    <option value="">Chọn</option>
+                    <!--{html_options options=$arrMinutes selected=$arrForm[$key4].value}-->
+                </select>
+                <span>Phút</span>
             </td>
         </tr>
         <tr>
-            <th><!--{t string="tpl_Payment method_01"}--></th>
+            <th>Nợ</th>
             <td colspan="3">
-            <!--{assign var=key value="search_payment_id"}-->
-            <span class="attention"><!--{$arrErr[$key]|h}--></span>
-            <!--{html_checkboxes name="$key" options=$arrPayments selected=$arrForm[$key].value}-->
+                <!--{assign var=key value="search_order_debt"}-->
+                <span class="attention"><!--{$arrErr[$key]}--></span>
+                <!--{html_radios name="$key" options=$arrDebtStatus selected=$arrForm[$key].value separator=' '}-->
             </td>
         </tr>
         <tr>
-            <th><!--{t string="tpl_Date of order receipt_01"}--></th>
+            <th>Trạng Thái Thanh Toán</th>
             <td colspan="3">
-            <!--{if $arrErr.search_sorderyear || $arrErr.search_eorderyear}-->
-            <span class="attention"><!--{$arrErr.search_sorderyear}--></span>
-            <span class="attention"><!--{$arrErr.search_eorderyear}--></span>
-            <!--{/if}-->
-            <input id="datepickersearch_sorder" type="text" value="" <!--{if $arrErr.search_sorderyear != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-            <input type="hidden" name="search_sorderyear" value="<!--{$arrForm.search_sorderyear.value|h}-->" />
-            <input type="hidden" name="search_sordermonth" value="<!--{$arrForm.search_sordermonth.value|h}-->" />
-            <input type="hidden" name="search_sorderday" value="<!--{$arrForm.search_sorderday.value|h}-->" />
-            <!--{t string="-"}-->
-            <input id="datepickersearch_eorder" type="text" value="" <!--{if $arrErr.search_eorderyear != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-            <input type="hidden" name="search_eorderyear" value="<!--{$arrForm.search_eorderyear.value|h}-->" />
-            <input type="hidden" name="search_eordermonth" value="<!--{$arrForm.search_eordermonth.value|h}-->" />
-            <input type="hidden" name="search_eorderday" value="<!--{$arrForm.search_eorderday.value|h}-->" />
-            </td>
-        </tr>
-        <tr>
-            <th><!--{t string="tpl_Date of update_01"}--></th>
-            <td colspan="3">
-            <!--{if $arrErr.search_supdateyear || $arrErr.search_eupdateyear}-->
-            <span class="attention"><!--{$arrErr.search_supdateyear}--></span>
-            <span class="attention"><!--{$arrErr.search_eupdateyear}--></span>
-            <!--{/if}-->
-            <input id="datepickersearch_supdate" type="text" value="" <!--{if $arrErr.search_supdateyear != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-            <input type="hidden" name="search_supdateyear" value="<!--{$arrForm.search_supdateyear.value|h}-->" />
-            <input type="hidden" name="search_supdatemonth" value="<!--{$arrForm.search_supdatemonth.value|h}-->" />
-            <input type="hidden" name="search_supdateday" value="<!--{$arrForm.search_supdateday.value|h}-->" />
-            <!--{t string="-"}-->
-            <input id="datepickersearch_eupdate" type="text" value="" <!--{if $arrErr.search_eupdateyear != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
-            <input type="hidden" name="search_eupdateyear" value="<!--{$arrForm.search_eupdateyear.value|h}-->" />
-            <input type="hidden" name="search_eupdatemonth" value="<!--{$arrForm.search_eupdatemonth.value|h}-->" />
-            <input type="hidden" name="search_eupdateday" value="<!--{$arrForm.search_eupdateday.value|h}-->" />
-            </td>
-        </tr>
-        <tr>
-            <th><!--{t string="tpl_Purchase amount_01"}--></th>
-            <td>
-                <!--{assign var=key1 value="search_total1"}-->
-                <!--{assign var=key2 value="search_total2"}-->
-                <span class="attention"><!--{$arrErr[$key1]}--></span>
-                <span class="attention"><!--{$arrErr[$key2]}--></span>
-                <!--{t string="currency_prefix"}-->
-                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="6" class="box6" />
-                <!--{t string="currency_suffix"}-->
-                <!--{t string="-"}-->
-                <!--{t string="currency_prefix"}-->
-                <input type="text" name="<!--{$key2}-->" value="<!--{$arrForm[$key2].value|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" size="6" class="box6" />
-                <!--{t string="currency_suffix"}-->
-            </td>
-            <th><!--{t string="tpl_Purchased product_01"}--></th>
-            <td>
-                <!--{assign var=key value="search_product_name"}-->
-                <!--{if $arrErr[$key]}--><span class="attention"><!--{$arrErr[$key]}--></span><!--{/if}-->
-                <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" size="6" class="box30" />
+                <!--{assign var=key value="search_payments_status"}-->
+                <span class="attention"><!--{$arrErr[$key]|h}--></span>
+                <!--{html_checkboxes name="$key" options=$arrPaymentStatus selected=$arrForm[$key].value}-->
             </td>
         </tr>
     </table>
@@ -727,7 +704,7 @@
         </p>
         <div class="btn-area">
             <ul>
-                <li><a class="btn-action" href="javascript:;" onclick="fnFormModeSubmit('search_form', 'search', '', ''); return false;"><span class="btn-next"><!--{t string="tpl_Search using above criteria_01"}--></span></a></li>
+                <li><a class="btn-action" href="javascript:;" onclick="fnFormModeSubmit('search_form', 'search', '', ''); return false;"><span class="btn-next">Tìm Kiếm</span></a></li>
             </ul>
         </div>
     </div>
@@ -750,7 +727,7 @@
         <input type="hidden" name="<!--{$key|h}-->" value="<!--{$item|h}-->" />
     <!--{/if}-->
 <!--{/foreach}-->
-    <h2><!--{t string="tpl_List of search results_01"}--></h2>
+    <h2>Danh Sách Kết Quả</h2>
         <div class="btn">
         <!--検索結果数--><!--{t string="tpl_<span class='attention'>T_ARG1 items</span>&nbsp; were found._01" escape="none" T_ARG1=$tpl_linemax}-->
         <!--{if $smarty.const.ADMIN_MODE == '1'}-->
@@ -770,13 +747,12 @@
         <col width="10%" />
         <col width="8%" />
         <col width="15%" />
-        <col width="8%" />
+        <col width="15%" />
         <col width="10%" />
         <col width="10%" />
         <col width="10%" />
         <col width="10%" />
         <col width="5%" />
-        <col width="9%" />
         <col width="5%" />
         <!--{* ペイジェントモジュール連携用 *}-->
         <!--{assign var=path value=`$smarty.const.MODULE_REALDIR`mdl_paygent/paygent_order_index.tpl}-->
@@ -784,42 +760,35 @@
             <!--{include file=$path}-->
         <!--{else}-->
         <tr>
-            <th><!--{t string="tpl_Date of order receipt_01"}--></th>
-            <th><!--{t string="tpl_Order number_01"}--></th>
-            <th><!--{t string="tpl_Name_02"}--></th>
-            <th><!--{t string="tpl_Payment method_01"}--></th>
-            <th><!--{t string="tpl_Purchase amount (&#36;)_01" escape="none"}--></th>
-            <th><!--{t string="tpl_All product delivery dates_01"}--></th>
-            <th><!--{t string="tpl_Response status_01"}--></th>
-            <th><label for="pdf_check"><!--{t string="tpl_Ledger_01"}--></label> <input type="checkbox" name="pdf_check" id="pdf_check" onclick="fnAllCheck(this, 'input[name=pdf_order_id[]]')" /></th>
-            <th><!--{t string="tpl_Edit_01"}--></th>
-            <th><label for="mail_check"><!--{t string="tpl_Mail_01"}--></label> <input type="checkbox" name="mail_check" id="mail_check" onclick="fnAllCheck(this, 'input[name=mail_order_id[]]')" /></th>
-            <th><!--{t string="tpl_Remove_01"}--></th>
+            <th>Ngày tạo</th>
+            <th>CODE</th>
+            <th>Khách Hàng</th>
+            <th>Hành Trình</th>
+            <th>Giờ Bay</th>
+            <th>NV Đặt</th>
+            <th>Trạng Thái</th>
+            <th>Số Điện Thoại</th>
+            <th>Sửa</th>
+            <th>Xóa</th>
         </tr>
 
         <!--{section name=cnt loop=$arrResults}-->
         <!--{assign var=status value="`$arrResults[cnt].status`"}-->
         <tr style="background:<!--{$arrORDERSTATUS_COLOR[$status]}-->;">
             <td class="center"><!--{$arrResults[cnt].create_date|sfDispDBDate}--></td>
-            <td class="center"><!--{$arrResults[cnt].order_id}--></td>
+            <td class="center"><!--{$arrResults[cnt].order_code}--></td>
             <td><!--{$arrResults[cnt].order_name01|h}--> <!--{$arrResults[cnt].order_name02|h}--></td>
-            <!--{assign var=payment_id value="`$arrResults[cnt].payment_id`"}-->
-            <td class="center"><!--{$arrResults[cnt].payment_method}--></td>
-            <td class="right"><!--{$arrResults[cnt].total|number_format}--></td>
-            <td class="center"><!--{$arrResults[cnt].commit_date|sfDispDBDate|default_t:"tpl_Not shipped_01"}--></td>
-            <td class="center"><!--{$arrORDERSTATUS[$status]}--></td>
+            <td><!--{$arrResults[cnt].order_dept|h}--> - <!--{$arrResults[cnt].order_arriv|h}--></td>
             <td class="center">
-                <input type="checkbox" name="pdf_order_id[]" value="<!--{$arrResults[cnt].order_id}-->" id="pdf_order_id_<!--{$arrResults[cnt].order_id}-->"/><label for="pdf_order_id_<!--{$arrResults[cnt].order_id}-->"><!--{t string="tpl_Batch outpu_01"}--></label><br>
-                <a href="./" onClick="win02('pdf.php?order_id=<!--{$arrResults[cnt].order_id}-->','pdf_input','620','650'); return false;"><span class="icon_class"><!--{t string="tpl_Individual output_01"}--></span></a>
+                <span><!--{$arrResults[cnt].start_date|sfDispDBDate:false}--></span>
+                <span><!--{$arrResults[cnt].start_time}--></span>
             </td>
-            <td class="center"><a href="?" onclick="fnChangeAction('<!--{$smarty.const.ADMIN_ORDER_EDIT_URLPATH}-->'); fnModeSubmit('pre_edit', 'order_id', '<!--{$arrResults[cnt].order_id}-->'); return false;"><span class="icon_edit"><!--{t string="tpl_Edit_01"}--></span></a></td>
-            <td class="center">
-                <!--{if $arrResults[cnt].order_email|strlen >= 1}-->
-                    <input type="checkbox" name="mail_order_id[]" value="<!--{$arrResults[cnt].order_id}-->" id="mail_order_id_<!--{$arrResults[cnt].order_id}-->"/><label for="mail_order_id_<!--{$arrResults[cnt].order_id}-->"><!--{t string="tpl_Batch notification_01"}--></label><br>
-                    <a href="?" onclick="fnChangeAction('<!--{$smarty.const.ADMIN_ORDER_MAIL_URLPATH}-->'); fnModeSubmit('pre_edit', 'order_id', '<!--{$arrResults[cnt].order_id}-->'); return false;"><span class="icon_mail"><!--{t string="tpl_Individual notification_01"}--></span></a>
-                <!--{/if}-->
-            </td>
-            <td class="center"><a href="?" onclick="fnModeSubmit('delete_order', 'order_id', <!--{$arrResults[cnt].order_id}-->); return false;"><span class="icon_delete"><!--{t string="tpl_Remove_01"}--></span></a></td>
+            <!--{assign var=member value="`$arrResults[cnt].creator_id`"}-->
+            <td><!--{$arrMembers[$member]}--></td>
+            <td><!--{$arrORDERSTATUS[$status]}--></td>
+            <td class="center"><!--{$arrResults[cnt].order_tel}--></td>
+            <td class="center"><a href="?" onclick="fnChangeAction('<!--{$smarty.const.ADMIN_ORDER_EDIT_URLPATH}-->'); fnModeSubmit('pre_edit', 'order_id', '<!--{$arrResults[cnt].order_id}-->'); return false;"><span class="icon_edit">Sửa</span></a></td>
+            <td class="center"><a href="?" onclick="fnModeSubmit('delete_order', 'order_id', <!--{$arrResults[cnt].order_id}-->); return false;"><span class="icon_delete">Xóa</span></a></td>
         </tr>
         <!--{/section}-->
         <!--{/if}-->

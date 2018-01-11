@@ -60,7 +60,7 @@ function func_return(){
     <div id="customer" class="contents-main">
         <table class="form">
             <tr>
-                <th><!--{t string="tpl_Member ID_01"}--></th>
+                <th>Khách Hàng ID</th>
                 <td><!--{$arrForm.customer_id|h}--></td>
             </tr>
             <tr>
@@ -80,7 +80,7 @@ function func_return(){
                 <td><!--{$arrForm.tel|h}--></td>
             </tr>
             <tr>
-                <th><!--{t string="tpl_Memo for SHOP_01"}--></th>
+                <th>Ghi Chú</th>
                 <td><!--{$arrForm.note|h|nl2br|default_t:"tpl_Not registered_01"}--></td>
             </tr>
         </table>

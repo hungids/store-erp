@@ -42,7 +42,7 @@ var cube_locale_messages = {
     'j_admin_004': 'Do you want to register this category?',
     'j_admin_005': 'The new category cannot be selected',
     'j_admin_006': 'Do you want to delete the registered contents?',
-    'j_admin_007': 'Do you want to register with these contents?',
+    'j_admin_007': 'Bạn muốn lưu những thông tin này?',
     'j_admin_008': 'Do you want to delete this?',
     'j_admin_009': 'This e-mail address is already registered.\nThe type of mail magazine will be changed. Do you wish to continue?',
     'j_admin_010': '<FONT Color="#FFFF99"> << Display </FONT>',

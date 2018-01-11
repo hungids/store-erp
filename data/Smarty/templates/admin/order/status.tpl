@@ -29,7 +29,7 @@
 <input type="hidden" name="search_pageno" value="<!--{$tpl_pageno}-->" >
 <input type="hidden" name="order_id" value="" />
 <div id="order" class="contents-main">
-    <h2><!--{t string="tpl_Extraction conditions_01"}--></h2>
+    <h2>Điều Kiện Trạng Thái</h2>
         <div class="btn">
         <!--{foreach key=key item=item from=$arrORDERSTATUS}-->
             <a
@@ -42,12 +42,12 @@
             ><!--{$item}--></a>
         <!--{/foreach}-->
         </div>
-    <h2><!--{t string="tpl_Response status change_01"}--></h2>
+    <h2>Thay Đổi Trạng Thái</h2>
     <!--{* 登録テーブルここから *}-->
     <!--{if $tpl_linemax > 0}-->
         <div class="btn">
             <select name="change_status">
-                <option value="" selected="selected" style="<!--{$Errormes|sfGetErrorColor}-->" ><!--{t string="tpl_Please make a selection_01"}--></option>
+                <option value="" selected="selected" style="<!--{$Errormes|sfGetErrorColor}-->" >Vui Lòng Chọn</option>
                 <!--{foreach key=key item=item from=$arrORDERSTATUS}-->
                 <!--{if $key ne $SelectedStatus}-->
                 <option value="<!--{$key}-->" ><!--{$item}--></option>
@@ -55,9 +55,8 @@
                 <!--{/foreach}-->
                 <option value="delete"><!--{t string="tpl_Remove_01"}--></option>
             </select>
-            <a class="btn-normal" href="javascript:;" onclick="fnSelectCheckSubmit(); return false;"><span><!--{t string="tpl_Move_01"}--></span></a>
+            <a class="btn-normal" href="javascript:;" onclick="fnSelectCheckSubmit(); return false;"><span>Chuyển</span></a>
         </div>
-        <span class="attention"><!--{t string="tpl_* When T_ARG1 or when changing to delete, restore the inventory count manually._01" T_ARG1=$arrORDERSTATUS[$smarty.const.ORDER_CANCEL]}--></span><br />
 
         <p class="remark">
             <!--{t string="tpl_T_ARG1 items were found._01" T_ARG1=$tpl_linemax}-->
@@ -66,38 +65,42 @@
 
         <table class="list center">
             <col width="5%" />
-            <col width="7%" />
+            <col width="12%" />
+            <col width="5%" />
             <col width="9%" />
+            <col width="12%" />
             <col width="15%" />
-            <col width="20%" />
+            <col width="14%" />
+            <col width="8%" />
             <col width="10%" />
             <col width="10%" />
-            <col width="12%" />
-            <col width="12%" />
             <tr>
-                <th><label for="move_check"><!--{t string="tpl_Selection_01"}--></label> <input type="checkbox" name="move_check" id="move_check" onclick="fnAllCheck(this, 'input[name=move[]]')" /></th>
-                <th><!--{t string="tpl_Response status_01"}--></th>
-                <th><!--{t string="tpl_Order number_01"}--></th>
-                <th><!--{t string="tpl_Date of order receipt_01"}--></th>
-                <th><!--{t string="tpl_Name_02"}--></th>
-                <th><!--{t string="tpl_Payment method_01"}--></th>
-                <th><!--{t string="tpl_Purchase amount(&#36;)_01" escape="none"}--></th>
-                <th><!--{t string="tpl_Date of deposit_01"}--></th>
-                <th><!--{t string="tpl_Shipment date_01"}--></th>
+                <th><label for="move_check">Chọn</label> <input type="checkbox" name="move_check" id="move_check" onclick="fnAllCheck(this, 'input[name=move[]]')" /></th>
+                <th>Trạng Thái</th>
+                <th>Xem</th>
+                <th>CODE</th>
+                <th>Ngày Tạo</th>
+                <th>Tên</th>
+                <th>Hành Trình</th>
+                <th>Giờ Bay</th>
+                <th>NV Đặt</th>
+                <th>Số Điện Thoại</th>
             </tr>
             <!--{section name=cnt loop=$arrStatus}-->
             <!--{assign var=status value="`$arrStatus[cnt].status`"}-->
             <tr style="background:<!--{$arrORDERSTATUS_COLOR[$status]}-->;">
                 <td><input type="checkbox" name="move[]" value="<!--{$arrStatus[cnt].order_id}-->" ></td>
                 <td><!--{$arrORDERSTATUS[$status]}--></td>
-                <td><a href="#" onclick="fnOpenWindow('./disp.php?order_id=<!--{$arrStatus[cnt].order_id}-->','order_disp','800','900'); return false;" ><!--{$arrStatus[cnt].order_id}--></a></td>
-                <td><!--{$arrStatus[cnt].create_date|sfDispDBDate:false}--></td>
+                <td class="center"><a href="#" onclick="fnOpenWindow('./disp.php?order_id=<!--{$arrStatus[cnt].order_id}-->','order_disp','800','900'); return false;" ><!--{$arrStatus[cnt].order_id}--></a></td>
+                <td><!--{$arrStatus[cnt].order_code}--></td>
+                <td><!--{$arrStatus[cnt].create_date|sfDispDBDate}--></td>
                 <td><!--{$arrStatus[cnt].order_name01|h}--><!--{$arrStatus[cnt].order_name02|h}--></td>
                 <!--{assign var=payment_id value=`$arrStatus[cnt].payment_id`}-->
-                <td><!--{$arrStatus[cnt].payment_method|h}--></td>
-                <td class="right"><!--{$arrStatus[cnt].total|number_format}--></td>
-                <td><!--{if $arrStatus[cnt].payment_date != ""}--><!--{$arrStatus[cnt].payment_date|sfDispDBDate:false}--><!--{else}--><!--{t string="tpl_Not deposited_01"}--><!--{/if}--></td>
-                <td><!--{if $arrStatus[cnt].status eq 5}--><!--{$arrStatus[cnt].commit_date|sfDispDBDate:false}--><!--{else}--><!--{t string="tpl_Not shipped_01"}--><!--{/if}--></td>
+                <td><!--{$arrStatus[cnt].order_dept|h}--> - <!--{$arrStatus[cnt].order_arriv|h}--></td>
+                <!--{assign var=member value=`$arrStatus[cnt].creator_id`}-->
+                <td class="center"><!--{$arrStatus[cnt].start_time}--></td>
+                <td><!--{$arrMembers[$member]}--></td>
+                <td><!--{$arrStatus[cnt].order_tel}--></td>
             </tr>
             <!--{/section}-->
         </table>
