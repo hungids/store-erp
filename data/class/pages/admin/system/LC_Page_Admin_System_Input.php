@@ -334,6 +334,8 @@ class LC_Page_Admin_System_Input extends LC_Page_Admin_Ex {
         $sqlVal = array();
         $sqlVal['name']        = $arrMemberData['name'];
         $sqlVal['department']  = $arrMemberData['department'];
+        $sqlVal['tel']         = $arrMemberData['tel'];
+        $sqlVal['addr']  = $arrMemberData['addr'];
         $sqlVal['login_id']    = $arrMemberData['login_id'];
         $sqlVal['password']    = SC_Utils_Ex::sfGetHashString($arrMemberData['password'], $salt);
         $sqlVal['salt']        = $salt;
@@ -363,6 +365,8 @@ class LC_Page_Admin_System_Input extends LC_Page_Admin_Ex {
         $sqlVal = array();
         $sqlVal['name']        = $arrMemberData['name'];
         $sqlVal['department']  = $arrMemberData['department'];
+        $sqlVal['tel']         = $arrMemberData['tel'];
+        $sqlVal['addr']        = $arrMemberData['addr'];
         $sqlVal['login_id']    = $arrMemberData['login_id'];
         $sqlVal['authority']   = $arrMemberData['authority'];
         $sqlVal['work']   = $arrMemberData['work'];

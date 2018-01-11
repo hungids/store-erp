@@ -51,8 +51,8 @@ class LC_Page_Admin_System extends LC_Page_Admin_Ex {
         $this->tpl_mainno   = 'system';
         $this->tpl_subno    = 'index';
         $this->tpl_onload   = 'fnGetRadioChecked();';
-        $this->tpl_maintitle = t('c_System_01');
-        $this->tpl_subtitle = t('c_Admin management_01');
+        $this->tpl_maintitle = t('Hệ Thống');
+        $this->tpl_subtitle = t('Quản Lí Thành Viên');
 
         $masterData = new SC_DB_MasterData_Ex();
         $this->arrAUTHORITY = $masterData->getMasterData('mtb_authority');
@@ -127,7 +127,7 @@ class LC_Page_Admin_System extends LC_Page_Admin_Ex {
      * @return array 管理者データの連想配列
      */
     function getMemberData($startno) {
-        $col = 'member_id,name,department,login_id,authority,rank,work';
+        $col = 'member_id,name,department,login_id,authority,rank,work,tel,addr';
         $from = 'dtb_member';
         $where = 'del_flg <> 1 AND member_id <> ?';
         $objQuery =& SC_Query_Ex::getSingletonInstance();
