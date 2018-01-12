@@ -575,14 +575,16 @@
     <table class="list" id="customer-search-result">
         <col width="8%" />
         <col width="18%" />
-        <col width="30%" />
-        <col width="30%" />
+        <col width="25%" />
+        <col width="10%" />
+        <col width="25%" />
         <col width="7%" />
         <col width="7%" />
         <tr>
             <th rowspan="2">Mã KH</th>
             <th rowspan="2">Tên</th>
             <th rowspan="2">Ghi Chú</th>
+            <th rowspan="2">Nợ</th>
             <th>Số Điện Thoại</th>
             <th rowspan="2">Sửa</th>
             <th rowspan="2">Xóa</th>
@@ -595,6 +597,7 @@
                 <td rowspan="2"><!--{$row.customer_id|h}--></td>
                 <td rowspan="2"><!--{$row.name01|h}--> <!--{$row.name02|h}--></td>
                 <td class="center" rowspan="2"><!--{$row.note|h}--></td>
+                <td class="center" rowspan="2"><!--{$row.debt_total|n2s}--></td>
                 <td><!--{$row.tel|h}--></td>
                 <td class="center" rowspan="2"><span class="icon_edit"><a href="#" onclick="return fnEdit('<!--{$row.customer_id|h}-->');">Sửa</a></span></td>
                 <td class="center" rowspan="2"><span class="icon_delete"><a href="#" onclick="return fnDelete('<!--{$row.customer_id|h}-->');">Xóa</a></span></td>

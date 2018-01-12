@@ -327,7 +327,17 @@ class SC_CustomerList extends SC_SelectSql_Ex {
 
     // 検索用SQL
     function getList() {
-        $this->select = 'SELECT customer_id,name01,name02,kana01,kana02,sex,email,email_mobile,tel01,tel02,tel03,pref,status,update_date,mailmaga_flg,tel,note FROM dtb_customer ';
+        $this->select = <<< __EOS__
+    SELECT 
+    C.*, O.debt_total 
+    FROM dtb_customer C 
+        LEFT JOIN (SELECT customer_id, sum(debt_amount) AS debt_total 
+                    FROM dtb_order 
+                    WHERE debt_status = 1 AND del_flg = 0 
+                    GROUP BY customer_id) O 
+        ON 
+            C.customer_id = O.customer_id 
+__EOS__;
         return $this->getSql(0);
     }
 
