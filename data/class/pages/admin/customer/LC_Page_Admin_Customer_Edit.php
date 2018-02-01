@@ -257,7 +257,7 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex {
         $arrErr = SC_Helper_Customer_Ex::sfCustomerMypageErrorCheck($objFormParam, true);
 
         // メアド重複チェック(共通ルーチンは使えない)
-        $objQuery   =& SC_Query_Ex::getSingletonInstance();
+        /*$objQuery   =& SC_Query_Ex::getSingletonInstance();
         $col = 'email, email_mobile, customer_id';
         $table = 'dtb_customer';
         $where = 'del_flg <> 1 AND (email Like ? OR email_mobile Like ?)';
@@ -282,7 +282,7 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex {
                     $arrErr['email'] = t('c_* This mobile address is already used by another member (ID:T_ARG1)._01', array('T_ARG1' => $arrData['customer_id']));
                 }
             }
-        }
+        }*/
         return $arrErr;
     }
 
