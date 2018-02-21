@@ -112,14 +112,20 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex {
         }
 
         // 対応状況
-        $status = $objFormParam->getValue('status');
-        if (strlen($status) === 0) {
-                //デフォルトで新規受付一覧表示
-                $status = ORDER_NEW;
+        $debt_status = $objFormParam->getValue('debt_status');
+        if (strlen($debt_status) !== 0) {
+            //デフォルトで新規受付一覧表示
+            $this->listOrderDebt($objFormParam->getValue('search_pageno'));
+        } else {
+            $status = $objFormParam->getValue('status');
+            if (strlen($status) === 0) {
+                    //デフォルトで新規受付一覧表示
+                    $status = ORDER_NEW;
+            }
+            $this->SelectedStatus = $status;
+            //検索結果の表示
+            $this->lfStatusDisp($status, $objFormParam->getValue('search_pageno'));
         }
-        $this->SelectedStatus = $status;
-        //検索結果の表示
-        $this->lfStatusDisp($status, $objFormParam->getValue('search_pageno'));
 
     }
 
@@ -130,6 +136,7 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex {
     function lfInitParam(&$objFormParam) {
         $objFormParam->addParam(t('c_Order number_01'), 'order_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
         $objFormParam->addParam(t('c_Response status before change_01'), 'status', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
+        $objFormParam->addParam(t('c_Response status before change_01'), 'debt_status', INT_LEN, 'n', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('c_Page number_01'), 'search_pageno', INT_LEN, 'n', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
 		if ($this->getMode() == 'update') {
         	$objFormParam->addParam(t('c_Response status after change_01'), 'change_status', STEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK', 'NUM_CHECK'));
@@ -269,5 +276,37 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex {
         $objQuery->commit();
 
         return true;
+    }
+
+    // 対応状況一覧の表示
+    function listOrderDebt($pageno) {
+        $objQuery =& SC_Query_Ex::getSingletonInstance();
+        
+        $select ='*';
+        $from = 'dtb_order';
+        $where = 'del_flg = 0 AND debt_status = 1';
+        $order = 'order_id DESC';
+        
+        $linemax = $objQuery->count($from, $where);
+        $this->tpl_linemax = $linemax;
+        
+        // ページ送りの処理
+        $page_max = ORDER_STATUS_MAX;
+        
+        // ページ送りの取得
+        $objNavi = new SC_PageNavi_Ex($pageno, $linemax, $page_max, 'fnNaviSearchOnlyPage', NAVI_PMAX);
+        $this->tpl_strnavi = $objNavi->strnavi;      // 表示文字列
+        $startno = $objNavi->start_row;
+        
+        $this->tpl_pageno = $pageno;
+        
+        // 取得範囲の指定(開始行番号、行数のセット)
+        $objQuery->setLimitOffset($page_max, $startno);
+        
+        //表示順序
+        $objQuery->setOrder($order);
+        
+        //検索結果の取得
+        $this->arrStatus = $objQuery->select($select, $from, $where);
     }
 }

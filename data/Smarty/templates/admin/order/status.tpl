@@ -28,6 +28,7 @@
 <input type="hidden" name="status" value="<!--{if $arrForm.status == ""}-->1<!--{else}--><!--{$arrForm.status}--><!--{/if}-->" />
 <input type="hidden" name="search_pageno" value="<!--{$tpl_pageno}-->" >
 <input type="hidden" name="order_id" value="" />
+<input type="hidden" name="debt_status" value="" />
 <div id="order" class="contents-main">
     <h2>Điều Kiện Trạng Thái</h2>
         <div class="btn">
@@ -41,6 +42,9 @@
                 <!--{/if}-->
             ><!--{$item}--></a>
         <!--{/foreach}-->
+        <a class="btn-normal" style="padding-right: 1em;" href="javascript:;"
+           onclick="document.form1.search_pageno.value='1'; fnModeSubmit('search','debt_status','debt_status' ); return false;"
+            >VÉ CÒN NỢ</a>
         </div>
     <h2>Thay Đổi Trạng Thái</h2>
     <!--{* 登録テーブルここから *}-->
@@ -53,13 +57,13 @@
                 <option value="<!--{$key}-->" ><!--{$item}--></option>
                 <!--{/if}-->
                 <!--{/foreach}-->
-                <option value="delete"><!--{t string="tpl_Remove_01"}--></option>
+                <option value="delete">Xóa</option>
             </select>
             <a class="btn-normal" href="javascript:;" onclick="fnSelectCheckSubmit(); return false;"><span>Chuyển</span></a>
         </div>
 
         <p class="remark">
-            <!--{t string="tpl_T_ARG1 items were found._01" T_ARG1=$tpl_linemax}-->
+            <!--{t string="T_ARG1 kết quả" T_ARG1=$tpl_linemax}-->
             <!--{$tpl_strnavi}-->
         </p>
 
