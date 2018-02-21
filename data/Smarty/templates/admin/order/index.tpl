@@ -693,14 +693,13 @@
     </table>
 
     <div class="btn">
-        <p class="page_rows"><!--{t string="tpl_Results displayed_01"}-->
+        <p class="page_rows">Số lượng hiển thị
             <!--{assign var=key value="search_page_max"}-->
             <span class="attention"><!--{$arrErr[$key]}--></span>
             <!--{t string="record_prefix"}-->
             <select name="<!--{$arrForm[$key].keyname}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
             <!--{html_options options=$arrPageMax selected=$arrForm[$key].value}-->
             </select> 
-            <!--{t string="record_suffix"}-->
         </p>
         <div class="btn-area">
             <ul>
@@ -729,14 +728,14 @@
 <!--{/foreach}-->
     <h2>Danh Sách Kết Quả</h2>
         <div class="btn">
-        <!--検索結果数--><!--{t string="tpl_<span class='attention'>T_ARG1 items</span>&nbsp; were found._01" escape="none" T_ARG1=$tpl_linemax}-->
+        <!--検索結果数--><!--{t string="<span class='attention'>T_ARG1 kết quả</span>&nbsp;" escape="none" T_ARG1=$tpl_linemax}-->
         <!--{if $smarty.const.ADMIN_MODE == '1'}-->
         <a class="btn-normal" href="javascript:;" onclick="fnModeSubmit('delete_all','',''); return false;"><span><!--{t string="tpl_Delete all search results_01"}--></span></a>
         <!--{/if}-->
-        <a class="btn-normal" href="javascript:;" onclick="fnModeSubmit('csv','',''); return false;"><!--{t string="tpl_CSV download_01"}--></a>
+        <!--{* <a class="btn-normal" href="javascript:;" onclick="fnModeSubmit('csv','',''); return false;"><!--{t string="tpl_CSV download_01"}--></a>
         <a class="btn-normal" href="../contents/csv.php?tpl_subno_csv=order"><!--{t string="tpl_CSV output settings_01"}--></a>
         <a class="btn-normal" href="javascript:;" onclick="fnSelectCheckSubmit('pdf.php'); return false;"><span><!--{t string="tpl_PDF batch output_01"}--></span></a>
-        <a class="btn-normal" href="javascript:;" onclick="fnSelectMailCheckSubmit('mail.php'); return false;"><span><!--{t string="tpl_Batch e-mail notification_01"}--></span></a>
+        <a class="btn-normal" href="javascript:;" onclick="fnSelectMailCheckSubmit('mail.php'); return false;"><span><!--{t string="tpl_Batch e-mail notification_01"}--></span></a> *}-->
     </div>
     <!--{if count($arrResults) > 0}-->
 

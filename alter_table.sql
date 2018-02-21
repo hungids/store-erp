@@ -85,6 +85,12 @@ DELETE FROM `mtb_order_status`;
 INSERT INTO `mtb_order_status` (`id`, `name`, `rank`) VALUES
     (1, 'VÉ CHƯA XUẤT', 0),
     (2, 'VÉ CHƯA BAY', 1),
-    (3, 'VÉ HỦY', 4),
+    (3, 'VÉ HỦY', 5),
     (4, 'VÉ SẮP BAY', 2),
-    (5, 'VÉ ĐÃ BAY', 3);
+    (5, 'VÉ ĐÃ BAY', 3),
+    (7, 'VÉ CÒN NỢ', 4);
+DELETE FROM `mtb_authority`;
+/*!40000 ALTER TABLE `mtb_authority` DISABLE KEYS */;
+INSERT INTO `mtb_authority` (`id`, `name`, `rank`) VALUES
+    (0, 'Quản Trị Hệ Thống', 0),
+    (1, 'Quản Lí Phòng Vé', 1);

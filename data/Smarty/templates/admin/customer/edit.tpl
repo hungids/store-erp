@@ -211,7 +211,7 @@
 
         <h1>Vé Đã Mua</h1>
         <!--{if $tpl_linemax > 0}-->
-        <p><!--購入履歴一覧--><!--{t string="tpl_<span class='attention'>T_ARG1 items</span>&nbsp; were found._01" escape="none" T_ARG1=$tpl_linemax}--></p>
+        <p><!--購入履歴一覧--><!--{t string="<span class='attention'>T_ARG1 kết quả</span>&nbsp;" escape="none" T_ARG1=$tpl_linemax}--></p>
 
         <!--{include file=$tpl_pager}-->
 

@@ -529,12 +529,11 @@
         <!--{include file="`$smarty.const.TEMPLATE_ADMIN_REALDIR`/adminparts/form_customer_search.tpl"}-->
     </table>
     <div class="btn">
-        <p class="page_rows"><!--{t string="tpl_Results displayed_01"}-->
+        <p class="page_rows">Số lượng hiển thị
             <!--{t string="record_prefix"}-->
             <select name="search_page_max">
                 <!--{html_options options=$arrPageMax selected=$arrForm.search_page_max}-->
             </select> 
-            <!--{t string="record_suffix"}-->
         </p>
         <div class="btn-area">
             <ul>
@@ -560,12 +559,12 @@
     <!--{/if}-->
 <!--{/foreach}-->
 
-    <h2>Kết Quả</h2>
+    <h2>Danh Sách Kết Quả</h2>
     <div class="btn">
-        <!--検索結果数--><!--{t string="tpl_<span class='attention'>T_ARG1 items</span>&nbsp; were found._01" escape="none" T_ARG1=$tpl_linemax}-->
+        <!--検索結果数--><!--{t string="<span class='attention'>T_ARG1 kết quả</span>&nbsp;" escape="none" T_ARG1=$tpl_linemax}-->
         <!--検索結果-->
-        <a class="btn-normal" href="javascript:;" onclick="fnModeSubmit('csv','',''); return false;"><!--{t string="tpl_CSV download_01"}--></a>
-        <a class="btn-normal" href="javascript:;" onclick="location.href='../contents/csv.php?tpl_subno_csv=customer'"><!--{t string="tpl_CSV output settings_01"}--></a>
+        <!--{* <a class="btn-normal" href="javascript:;" onclick="fnModeSubmit('csv','',''); return false;"><!--{t string="tpl_CSV download_01"}--></a>
+        <a class="btn-normal" href="javascript:;" onclick="location.href='../contents/csv.php?tpl_subno_csv=customer'"><!--{t string="tpl_CSV output settings_01"}--></a> *}-->
     </div>
     <!--{if count($arrData) > 0}-->
 
