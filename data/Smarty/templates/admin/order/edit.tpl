@@ -80,6 +80,24 @@
         return false;
     }
 
+    function fnCheckIsExport(icolor) {
+        if(document.form1['is_export']) {
+            list = new Array(
+                'due_date',
+                'due_date_hour',
+                'due_date_min'
+                );
+            if(document.form1['is_export'].checked) {
+                fnChangeDisabled(list, icolor);
+                document.form1['due_date'].value = "";
+                document.form1['due_date_hour'].value = 0;
+                document.form1['due_date_min'].value = 0;
+            } else {
+                fnChangeDisabled(list, '');
+            }
+        }
+    }
+
     $(function(){
         var dateFormat = $.datepicker.regional['<!--{$smarty.const.LANG_CODE}-->'].dateFormat;
         <!--{if $arrForm.year.value != '' && $arrForm.month.value != '' && $arrForm.day.value != ''}-->
@@ -130,6 +148,53 @@
             setDatecustomer_edit(year + '/' + month + '/' + day);
         });
 
+        <!--{if $arrForm.due_date_year.value != '' && $arrForm.due_date_month.value != '' && $arrForm.due_date_day.value != ''}-->
+        var year  = '<!--{$arrForm.due_date_year.value|h}-->';
+        var month = '<!--{$arrForm.due_date_month.value|h}-->';
+        var day   = '<!--{$arrForm.due_date_day.value|h}-->';
+        var ymd = $.datepicker.formatDate(dateFormat, new Date(year, month - 1, day));
+        $("#due_date_datepicker").val(ymd);
+        <!--{/if}-->
+        $( "#due_date_datepicker" ).datepicker({
+            beforeShowDay: function(date) {
+                if(date.getDay() == 0) {
+                    return [true,"date-sunday"]; 
+                } else if(date.getDay() == 6){
+                    return [true,"date-saturday"];
+                } else {
+                    return [true];
+                }
+            },changeMonth: 'true'
+            ,changeYear: 'true'
+            ,onSelect: function(dateText, inst){
+                var year  = inst.selectedYear;
+                var month = inst.selectedMonth + 1;
+                var day   = inst.selectedDay;
+                setDateExport_edit(year + '/' + month + '/' + day);
+            },
+            showButtonPanel: true,
+            beforeShow: showAdditionalButtonExport_edit,
+            onChangeMonthYear: showAdditionalButtonExport_edit
+            });
+            
+            $("#due_date_datepicker").change( function() {
+                var dateText   = $(this).val();
+                var dateFormat = $.datepicker.regional['<!--{$smarty.const.LANG_CODE}-->'].dateFormat;
+                var date;
+                var year  = '';
+                var month = '';
+                var day   = '';
+                try {
+                    date = $.datepicker.parseDate(dateFormat, dateText);
+                    year  = date.getFullYear();
+                    month = date.getMonth() + 1;
+                    day   = date.getDate();
+                } catch (e) {
+                    $(this).val('');
+                }
+                setDateExport_edit(year + '/' + month + '/' + day);
+            });
+
         $('.price_check').change( function() {
             var price_net = $('#price_net').val();
             var price_sale = $('#price_sale').val();
@@ -159,12 +224,36 @@
             btn.appendTo(buttonPane);
         }, 1);
     };
-    
+
+    var showAdditionalButtonExport_edit = function (input) {
+        setTimeout(function () {
+            var buttonPane = $(input)
+                     .datepicker("widget")
+                     .find(".ui-datepicker-buttonpane");
+            btn
+                    .unbind("click")
+                    .bind("click", function () {
+                        $.datepicker._clearDate(input);
+                        $("*[name=due_date_year]").val("");
+                        $("*[name=due_date_month]").val("");
+                        $("*[name=due_date_day]").val("");
+                    });
+            btn.appendTo(buttonPane);
+        }, 1);
+    };
+
     function setDatecustomer_edit(dateText){
-    var dates = dateText.split('/');
-    $("*[name=year]").val(dates[0]);
-    $("*[name=month]").val(dates[1]);
-    $("*[name=day]").val(dates[2]);
+        var dates = dateText.split('/');
+        $("*[name=year]").val(dates[0]);
+        $("*[name=month]").val(dates[1]);
+        $("*[name=day]").val(dates[2]);
+    }
+
+    function setDateExport_edit(dateText){
+        var dates = dateText.split('/');
+        $("*[name=due_date_year]").val(dates[0]);
+        $("*[name=due_date_month]").val(dates[1]);
+        $("*[name=due_date_day]").val(dates[2]);
     }
 
 //-->
@@ -330,9 +419,23 @@
         <tr>
             <th>Thời Hạn Giữ Chỗ</th>
             <td>
-                <!--{assign var=key1 value="due_day"}-->
+                <!--{assign var=key1 value="due_date"}-->
+                <!--{assign var=key2 value="due_date_hour"}-->
+                <!--{assign var=key3 value="due_date_min"}-->
                 <span class="attention"><!--{$arrErr[$key1]}--></span>
-                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
+                <input type="text" id="due_date_datepicker" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
+                <input type="hidden" name="due_date_year" value="<!--{$arrForm.due_date_year.value}-->" />
+                <input type="hidden" name="due_date_month" value="<!--{$arrForm.due_date_month.value}-->" />
+                <input type="hidden" name="due_date_day" value="<!--{$arrForm.due_date_day.value}-->" />
+                <select name="<!--{$key2}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
+                    <!--{html_options options=$arrHour selected=$arrForm[$key2].value}-->
+                </select>
+                <span>Giờ</span>
+                <select name="<!--{$key3}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
+                    <!--{html_options options=$arrMinutes selected=$arrForm[$key3].value}-->
+                </select>
+                <span>Phút</span><br />
+                <label><input type="checkbox" name="is_export" value="1" <!--{if $arrForm.is_export.value == "1"}-->checked<!--{/if}--> onclick="fnCheckIsExport('<!--{$smarty.const.DISABLED_RGB}-->');"/>Xuất Bay Gấp</label>
             </td>
         </tr>
         <tr>

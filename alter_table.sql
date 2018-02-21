@@ -14,8 +14,6 @@ CREATE TABLE IF NOT EXISTS `mtb_payments_status` (
 
 DELETE FROM `mtb_payments_status`;
 
-/*!40000 ALTER TABLE `mtb_order_status` DISABLE KEYS */;
-
 INSERT INTO `mtb_payments_status` (`id`, `name`, `rank`) VALUES
 
     (1, 'TAIKHOANMOMO', 12),
@@ -49,7 +47,7 @@ ALTER TABLE `dtb_order`
     ADD COLUMN `order_tel` TEXT NULL AFTER `due_day`,
     ADD COLUMN `creator_id` INT NULL AFTER `order_tel`,
     ADD COLUMN `debt_status` INT(11) NULL DEFAULT '2' AFTER `creator_id`,
-    ADD COLUMN `debt_amount` INT(11) NULL EFAULT '0' AFTER `debt_status`;
+    ADD COLUMN `debt_amount` INT(11) NULL DEFAULT '0' AFTER `debt_status`;
 
 -- Bảng member
 ALTER TABLE `dtb_member`
@@ -73,3 +71,20 @@ INSERT INTO `mtb_debt_status` (`id`, `name`, `rank`) VALUES
 
     (1, 'Còn Nợ', 0),
     (2, 'Thanh Toán Đủ', 1);
+
+    /* Thời hạn giữ chỗ */
+ALTER TABLE `dtb_order`
+    CHANGE COLUMN `due_day` `due_date` DATETIME NULL AFTER `payment_status`;
+ALTER TABLE `dtb_order`
+    ADD COLUMN `due_time` TIME NULL DEFAULT NULL AFTER `due_date`;
+ALTER TABLE `dtb_order`
+    ADD COLUMN `is_export` INT NULL AFTER `debt_amount`;
+    /* Order status */
+DELETE FROM `mtb_order_status`;
+/*!40000 ALTER TABLE `mtb_order_status` DISABLE KEYS */;
+INSERT INTO `mtb_order_status` (`id`, `name`, `rank`) VALUES
+    (1, 'VÉ CHƯA XUẤT', 0),
+    (2, 'VÉ CHƯA BAY', 1),
+    (3, 'VÉ HỦY', 4),
+    (4, 'VÉ SẮP BAY', 2),
+    (5, 'VÉ ĐÃ BAY', 3);

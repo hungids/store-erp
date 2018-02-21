@@ -80,9 +80,10 @@
                 <th>Xem</th>
                 <th>CODE</th>
                 <th>Ngày Tạo</th>
-                <th>Tên</th>
+                <th>Tên Khách Hàng</th>
                 <th>Hành Trình</th>
                 <th>Giờ Bay</th>
+                <th>Hạn Giữ Chỗ</th>
                 <th>NV Đặt</th>
                 <th>Số Điện Thoại</th>
             </tr>
@@ -98,7 +99,8 @@
                 <!--{assign var=payment_id value=`$arrStatus[cnt].payment_id`}-->
                 <td><!--{$arrStatus[cnt].order_dept|h}--> - <!--{$arrStatus[cnt].order_arriv|h}--></td>
                 <!--{assign var=member value=`$arrStatus[cnt].creator_id`}-->
-                <td class="center"><!--{$arrStatus[cnt].start_time}--></td>
+                <td class="center"><!--{$arrStatus[cnt].start_date|sfDispDBDate:false}--> <!--{$arrStatus[cnt].start_time}--></td>
+                <td class="center"><!--{if $arrStatus[cnt].is_export}-->Xuất Bay Gấp<!--{else}--><!--{$arrStatus[cnt].due_date|sfDispDBDate:false}--> <!--{$arrStatus[cnt].due_time}--><!--{/if}--></td>
                 <td><!--{$arrMembers[$member]}--></td>
                 <td><!--{$arrStatus[cnt].order_tel}--></td>
             </tr>

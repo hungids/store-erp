@@ -167,6 +167,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
                 break;
 
             case 'edit':
+                $_POST['is_export'] = $_POST['is_export'] ? 1 : 0;
                 $objFormParam->setParam($_POST);
                 $objFormParam->convParam();
                 $this->arrErr = $this->lfCheckError($objFormParam);
@@ -300,7 +301,7 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
         $objFormParam->addParam(t('Địa Chỉ 1'), 'order_addr01', MTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Địa Chỉ 2'), 'order_addr02', MTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Số Điện Thoại'), 'order_tel', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('Ghi Chú'), 'message', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Ghi Chú'), 'message', LLTEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Ngày Tạo'), 'create_date', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Người Tạo'), 'creator_id', INT_LEN, 'n', array('MAX_LENGTH_CHECK'));
         // Ngày Bay
@@ -323,9 +324,16 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
         $objFormParam->addParam(t('Tình Trạng Thanh Toán'), 'payment_status', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Nợ'), 'debt_status', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Số Tiền Nợ'), 'debt_amount', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('Thời Hạn Giữ Chỗ'), 'due_day', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('Ghi Chú'), 'memo01', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('Ghi Chú Khách Hàng'), 'memo02', STEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        // Thời hạn giữ chỗ
+        $objFormParam->addParam(t('Năm'), 'due_date_year', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Tháng'), 'due_date_month', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Ngày'), 'due_date_day', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Giờ'), 'due_date_hour', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Phút'), 'due_date_min', STEXT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Xuất ngay'), 'is_export', INT_LEN, 'n', array('MAX_LENGTH_CHECK'));
+
+        $objFormParam->addParam(t('Ghi Chú'), 'memo01', LLTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
+        $objFormParam->addParam(t('Ghi Chú Khách Hàng'), 'memo02', LLTEXT_LEN, 'KVa', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
     }
 
     /**
@@ -484,6 +492,15 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
             list($arrOrder['fly_hour'], $arrOrder['fly_minute'], $arrOrder['fly_second']) = explode(':',$arrOrder['start_time']);
         }
 
+        // Thời hạn giữ chỗ
+        if (isset($arrOrder['due_date'])) {
+            $start_date = explode(' ', $arrOrder['due_date']);
+            list($arrOrder['due_date_year'], $arrOrder['due_date_month'], $arrOrder['due_date_day']) = explode('-',$start_date[0]);
+        }
+        if (isset($arrOrder['due_time'])) {
+            list($arrOrder['due_date_hour'], $arrOrder['due_date_min'], $arrOrder['due_date_second']) = explode(':',$arrOrder['due_time']);
+        }
+
         $objFormParam->setParam($arrOrder);
 
         // ポイントを設定
@@ -604,6 +621,18 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
         if (!SC_Utils_Ex::isBlank($objFormParam->getValue('fly_hour'))) {
             $arrValues['start_time'] = $objFormParam->getValue('fly_hour') . ':'
                 . $objFormParam->getValue('fly_minute') . ':00';
+        }
+
+        if (!SC_Utils_Ex::isBlank($objFormParam->getValue('due_date_year'))) {
+            $arrValues['due_date'] = $objFormParam->getValue('due_date_year') . '/'
+                . $objFormParam->getValue('due_date_month') . '/'
+                    . $objFormParam->getValue('due_date_day')
+                    . ' 00:00:00';
+        }
+
+        if (!SC_Utils_Ex::isBlank($objFormParam->getValue('due_date_hour'))) {
+            $arrValues['due_time'] = $objFormParam->getValue('due_date_hour') . ':'
+                . $objFormParam->getValue('due_date_min') . ':00';
         }
 
         $where = 'order_id = ?';
@@ -764,9 +793,13 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
      */
     function getAnchorKey(&$objFormParam) {
         $ancor_key = $objFormParam->getValue('anchor_key');
+        $is_export = $objFormParam->getValue('is_export');
         if (!SC_Utils_Ex::isBlank($ancor_key)) {
             return "location.hash='#" . htmlentities(urlencode($ancor_key), ENT_QUOTES) . "'";
         }
-        return '';
+        if ($is_export) {
+            return "fnCheckIsExport('" . DISABLED_RGB . "');";
+        }
+        return "";
     }
 }

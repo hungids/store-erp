@@ -215,7 +215,7 @@ class LC_Page_Admin_Customer_Edit extends LC_Page_Admin_Ex {
         $objFormParam->addParam(t('Tên 2'), 'name02', STEXT_LEN, 'aKV', array('EXIST_CHECK'));
         $objFormParam->addParam(t('Địa chỉ 1'), 'addr01', MTEXT_LEN, 'aKV', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Địa chỉ 2'), 'addr02', MTEXT_LEN, 'aKV', array('SPTAB_CHECK', 'MAX_LENGTH_CHECK'));
-        $objFormParam->addParam(t('Email'), 'email', null, 'a', array('NO_SPTAB', 'EXIST_CHECK', 'EMAIL_CHECK', 'SPTAB_CHECK' ,'EMAIL_CHAR_CHECK'));
+        $objFormParam->addParam(t('Email'), 'email', null, 'a', array('NO_SPTAB', 'EMAIL_CHECK', 'SPTAB_CHECK' ,'EMAIL_CHAR_CHECK'));
         $objFormParam->addParam(t('Số Điện Thoại'), 'tel', LTEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('Ghi chú'), 'note', LTEXT_LEN, 'KVa', array('MAX_LENGTH_CHECK'));
         $objFormParam->addParam(t('c_Member ID_01'), 'customer_id', INT_LEN, 'n', array('NUM_CHECK'));
