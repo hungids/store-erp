@@ -99,7 +99,7 @@
                 <td class="center"><a href="#" onclick="fnOpenWindow('./disp.php?order_id=<!--{$arrStatus[cnt].order_id}-->','order_disp','800','900'); return false;" ><!--{$arrStatus[cnt].order_id}--></a></td>
                 <td><!--{$arrStatus[cnt].order_code}--></td>
                 <td><!--{$arrStatus[cnt].create_date|sfDispDBDate}--></td>
-                <td><!--{$arrStatus[cnt].order_name01|h}--><!--{$arrStatus[cnt].order_name02|h}--></td>
+                <td><!--{$arrStatus[cnt].order_name01|h}--> <!--{$arrStatus[cnt].order_name02|h}--></td>
                 <!--{assign var=payment_id value=`$arrStatus[cnt].payment_id`}-->
                 <td><!--{$arrStatus[cnt].order_dept|h}--> - <!--{$arrStatus[cnt].order_arriv|h}--></td>
                 <!--{assign var=member value=`$arrStatus[cnt].creator_id`}-->
