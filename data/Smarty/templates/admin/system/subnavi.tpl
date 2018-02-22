@@ -25,5 +25,5 @@
 <ul class="level1">
 <li<!--{if $tpl_subno == 'index'}--> class="on"<!--{/if}--> id="navi-system-index"><a href="<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->system/<!--{$smarty.const.DIR_INDEX_PATH}-->"><span>Quản Trị Hệ Thống</span></a></li>
 <li<!--{if $tpl_subno == 'masterdata'}--> class="on"<!--{/if}--> id="navi-system-masterdata"><a href="<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->system/masterdata.php"><span>Thiết Lập Giá Trị</span></a></li>
-<li<!--{if $tpl_mainno == 'system' && $tpl_subno == 'editdb'}--> class="on"<!--{/if}--> id="navi-system-editdb"><a href="<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->system/editdb.php"><span><!--{t string="tpl_Advanced database management_01"}--></span></a></li>
+<li<!--{if $tpl_subno == 'parameter'}--> class="on"<!--{/if}--> id="navi-system-parameter"><a href="<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->system/parameter.php"><span>Hằng Số</span></a></li>
 </ul>

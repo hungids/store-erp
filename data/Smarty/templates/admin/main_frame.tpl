@@ -134,7 +134,7 @@
 <!--{* ▼FOOTER *}-->
 <div id="footer">
     <div id="footer-contents">
-        <div id="copyright"><!--{t string="tpl_Copyright &copy; 2000-T_ARG1 LOCKON CO.,LTD. All Rights Reserved._01" escape="none" T_ARG1=$smarty.now|date_format:"%Y"}--></div>
+        <div id="copyright"><!--{$smarty.const.COMPANY_NAME}-->. All Rights Reserved</div>
         <div id="topagetop">
             <ul class="sites">
                 <li><a href="#top" class="btn-tool-format"><!--{t string="tpl_PAGE TOP_01"}--></a></li>

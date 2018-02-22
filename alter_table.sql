@@ -97,3 +97,5 @@ ALTER TABLE `dtb_order`
     ADD COLUMN `number_pax_adult` INT NULL AFTER `number_pax`,
     ADD COLUMN `number_pax_child` INT NULL AFTER `number_pax_adult`,
     ADD COLUMN `number_pax_baby` INT NULL AFTER `number_pax_child`;
+INSERT INTO mtb_constants (id, name, rank, remarks)
+    SELECT 'COMPANY_NAME', '"Công Ty TNHH Cường Anh Tiến"', MAX(rank) + 1, 'Tên Công Ty' FROM mtb_constants;
