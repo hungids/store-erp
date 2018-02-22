@@ -58,6 +58,7 @@ class LC_Page_Admin_Order extends LC_Page_Admin_Ex {
         $this->arrPaymentStatus = $masterData->getMasterData('mtb_payments_status');
         $this->arrDebtStatus = $masterData->getMasterData('mtb_debt_status');
         $this->arrMembers = SC_Helper_DB_Ex::sfGetIDValueList('dtb_member', 'member_id', "name");
+        unset($this->arrMembers[2]);
 
         $objDate = new SC_Date_Ex();
         // 登録・更新日検索用
