@@ -44,7 +44,9 @@ class LC_Page_Index_Ex extends LC_Page_Index {
      * @return void
      */
     function init() {
-        parent::init();
+        SC_Response_Ex::sendRedirect(ROOT_URLPATH . ADMIN_DIR);
+        exit;
+        //parent::init();
     }
 
     /**

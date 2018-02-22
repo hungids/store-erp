@@ -90,10 +90,10 @@
     <div id="header-contents">
         <div id="logo"><a href="<!--{$smarty.const.ADMIN_HOME_URLPATH}-->"><img src="<!--{$TPL_URLPATH}-->img/header/logo.jpg" width="172" height="25" alt="EC-CUBE" /></a></div>
         <div id="site-check">
-            <p class="info"><!--{t string="tpl_<span>Login&nbsp;:&nbsp;T_ARG1</span>&nbsp;_01" escape="none" T_ARG1=$smarty.session.login_name|h}--></p>
+            <p class="info"><!--{t string="<span>Đăng Nhập&nbsp;:&nbsp;T_ARG1</span>&nbsp;" escape="none" T_ARG1=$smarty.session.login_name|h}--></p>
             <ul>
-                <li class="bt_forum"><a href="http://en.ec-cube.net/forum/" class="btn-tool-format02" target="_blank"><span>USER FORUMS</span></a></li>
-                <li class="bt_checksite"><a href="<!--{$smarty.const.HTTP_URL}--><!--{$smarty.const.DIR_INDEX_PATH}-->" class="btn-tool-format" target="_blank"><span><!--{t string="tpl_CHECK SITE_01"}--></span></a></li>
+                <!--{* <li class="bt_forum"><a href="http://en.ec-cube.net/forum/" class="btn-tool-format02" target="_blank"><span>USER FORUMS</span></a></li>
+                <li class="bt_checksite"><a href="<!--{$smarty.const.HTTP_URL}--><!--{$smarty.const.DIR_INDEX_PATH}-->" class="btn-tool-format" target="_blank"><span><!--{t string="tpl_CHECK SITE_01"}--></span></a></li> *}-->
                 <li><a href="<!--{$smarty.const.ADMIN_LOGOUT_URLPATH}-->" class="btn-tool-format"><!--{t string="tpl_LOGOUT_01"}--></a></li>
             </ul>
         </div>
