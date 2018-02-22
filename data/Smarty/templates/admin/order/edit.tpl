@@ -361,9 +361,21 @@
         <tr>
             <th>Số Lượng Khách</th>
             <td>
-                <!--{assign var=key1 value="number_pax"}-->
-                <span class="attention"><!--{$arrErr[$key1]}--></span>
-                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
+                <!--{assign var=key1 value="number_pax_adult"}-->
+                <!--{assign var=key2 value="number_pax_child"}-->
+                <!--{assign var=key3 value="number_pax_baby"}-->
+                <span>Người Lớn</span>
+                <select name="<!--{$key1}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->">
+                    <!--{html_options options=$arrPax selected=$arrForm[$key1].value}-->
+                </select>
+                <span>&nbsp;&nbsp;&nbsp;Trẻ Em</span>
+                <select name="<!--{$key2}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->">
+                    <!--{html_options options=$arrPax selected=$arrForm[$key2].value}-->
+                </select>
+                <span>&nbsp;&nbsp;&nbsp;Em Bé</span>
+                <select name="<!--{$key3}-->" style="<!--{$arrErr[$key3]|sfGetErrorColor}-->">
+                    <!--{html_options options=$arrPax selected=$arrForm[$key3].value}-->
+                </select>
             </td>
         </tr>
         <tr>

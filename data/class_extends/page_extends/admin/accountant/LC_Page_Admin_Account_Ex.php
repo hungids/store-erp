@@ -165,6 +165,7 @@ class LC_Page_Admin_Account_Ex extends LC_Page_Admin_Ex {
                             // 検索結果の取得
                             $this->arrResults = $this->findOrders($where, $arrWhereVal,
                                                                   $page_max, $objNavi->start_row, $order);
+                            $this->sfCalAccounting($this->arrResults);
                             break;
                     }
                 }
@@ -381,14 +382,14 @@ class LC_Page_Admin_Account_Ex extends LC_Page_Admin_Ex {
                 $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_sbirthyear'),
                                                     $objFormParam->getValue('search_sbirthmonth'),
                                                     $objFormParam->getValue('search_sbirthday'));
-                $where.= ' AND start_date >= ?';
+                $where.= ' AND create_date >= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_ebirthyear':
                 $date = SC_Utils_Ex::sfGetTimestamp($objFormParam->getValue('search_ebirthyear'),
                                                     $objFormParam->getValue('search_ebirthmonth'),
                                                     $objFormParam->getValue('search_ebirthday'), true);
-                $where.= ' AND start_date <= ?';
+                $where.= ' AND create_date <= ?';
                 $arrValues[] = $date;
                 break;
             case 'search_shour':
@@ -528,7 +529,7 @@ class LC_Page_Admin_Account_Ex extends LC_Page_Admin_Ex {
      */
     function findOrders($where, $arrValues, $limit, $offset, $order) {
         $objQuery =& SC_Query_Ex::getSingletonInstance();
-        $objQuery->setLimitOffset($limit, $offset);
+        //$objQuery->setLimitOffset($limit, $offset);
         $objQuery->setOrder($order);
         return $objQuery->select('*', 'dtb_order', $where, $arrValues);
     }
@@ -542,5 +543,21 @@ class LC_Page_Admin_Account_Ex extends LC_Page_Admin_Ex {
         $this->arrTotalEarn = $total_earn[0]['total_earning'];
         $total_debt = $objQuery->select('SUM(debt_amount) as total_debt', 'dtb_order', 'del_flg = 0 AND debt_status = 1');
         $this->arrTotalDebt = $total_debt[0]['total_debt'];
+    }
+
+    function sfCalAccounting($arrOrders) {
+        $income = 0;
+        $earning = 0;
+        $debt = 0;
+        foreach ($arrOrders as $order) {
+            $income += $order['price_sale'];
+            $earning += $order['earning'];
+            if ($order['debt_status'] == 1) {
+                $debt += $order['debt_amount'];
+            }
+        }
+        $this->income = $income;
+        $this->earning = $earning;
+        $this->debt = $debt;
     }
 }

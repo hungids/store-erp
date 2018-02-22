@@ -93,3 +93,7 @@ DELETE FROM `mtb_authority`;
 INSERT INTO `mtb_authority` (`id`, `name`, `rank`) VALUES
     (0, 'Quản Trị Hệ Thống', 0),
     (1, 'Quản Lí Phòng Vé', 1);
+ALTER TABLE `dtb_order`
+    ADD COLUMN `number_pax_adult` INT NULL AFTER `number_pax`,
+    ADD COLUMN `number_pax_child` INT NULL AFTER `number_pax_adult`,
+    ADD COLUMN `number_pax_baby` INT NULL AFTER `number_pax_child`;

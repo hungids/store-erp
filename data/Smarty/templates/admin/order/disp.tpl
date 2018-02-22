@@ -43,7 +43,7 @@ self.moveTo(20,20);self.focus();
         </tr>
         <tr>
             <th>Người Tạo</th>
-            <td><!--{$arrORDERSTATUS[$arrForm.status.value]|h}--></td>
+            <td><!--{$arrMembers[$arrForm.creator_id.value]|h}--></td>
         </tr>
         <tr>
             <th>CODE</th>
@@ -51,7 +51,7 @@ self.moveTo(20,20);self.focus();
         </tr>
         <tr>
             <th>Trạng Thái</th>
-            <td><!--{$arrMembers[$arrForm.creator_id.value]|h}--></td>
+            <td><!--{$arrORDERSTATUS[$arrForm.status.value]|h}--></td>
         </tr>
         <tr>
             <th>Ngày Bay</th>
@@ -63,7 +63,10 @@ self.moveTo(20,20);self.focus();
         </tr>
         <tr>
             <th>Số Lượng Khách</th>
-            <td><!--{$arrForm.number_pax.value}--></td>
+            <td><!--{if $arrForm.number_pax_adult.value > 0}--><!--{$arrForm.number_pax_adult.value}--> Người Lớn <!--{/if}-->
+                <!--{if $arrForm.number_pax_child.value > 0}-->, <!--{$arrForm.number_pax_child.value}--> Trẻ Em <!--{/if}-->
+                <!--{if $arrForm.number_pax_baby.value > 0}-->, <!--{$arrForm.number_pax_baby.value}--> Em Bé <!--{/if}-->
+            </td>
         </tr>
         <tr>
             <th>Giá NET</th>

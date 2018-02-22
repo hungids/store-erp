@@ -575,23 +575,23 @@
 <form name="search_form" id="search_form" method="post" action="?">
 <input type="hidden" name="<!--{$smarty.const.TRANSACTION_ID_NAME}-->" value="<!--{$transactionid}-->" />
 <input type="hidden" name="mode" value="search" />
-    <h2>Doanh Thu</h2>
+    <h2>Tổng Cộng</h2>
     <!--{* 検索条件設定テーブルここから *}-->
     <table>
         <tr>
-            <th>Doanh Thu</th>
+            <th>Tổng Doanh Thu</th>
             <td>
                 <!--{$arrTotalIncome|n2s}--> VND
             </td>
         </tr>
         <tr>
-            <th>Lãi (Dự kiến) </th>
+            <th>Tổng Lãi (Dự kiến) </th>
             <td>
                 <!--{$arrTotalEarn|n2s}--> VND
             </td>
         </tr>
         <tr>
-            <th>Nợ</th>
+            <th>Tổng Nợ</th>
             <td>
                 <!--{$arrTotalDebt|n2s}--> VND
             </td>
@@ -600,7 +600,7 @@
     <h2>Lọc</h2>
     <!--{* 検索条件設定テーブルここから *}-->
     <table>
-        <tr>
+        <!--{* <tr>
             <th>CODE</th>
             <td>
                 <!--{assign var=key1 value="search_order_code"}-->
@@ -635,7 +635,7 @@
                 <span class="attention"><!--{$arrErr[$key]}--></span>
                 <!--{html_checkboxes name="$key" options=$arrORDERSTATUS selected=$arrForm[$key].value}-->
             </td>
-        </tr>
+        </tr> *}-->
         <tr>
             <th>NV Đặt</th>
             <td colspan="3">
@@ -645,7 +645,7 @@
             </td>
         </tr>
         <tr>
-            <th>Ngày Bay</th>
+            <th>Thời Gian</th>
             <td colspan="3">
             <!--{if $arrErr.search_sbirthyear || $arrErr.search_ebirthyear}-->
                 <span class="attention"><!--{$arrErr.search_sbirthyear}--></span>
@@ -662,7 +662,7 @@
                 <input type="hidden" name="search_ebirthday" value="<!--{$arrForm.search_ebirthday.value|h}-->" />
             </td>
         </tr>
-        <tr>
+        <!--{* <tr>
             <th>Giờ Bay</th>
             <td colspan="3">
                 <!--{assign var=key1 value="search_shour"}-->
@@ -695,7 +695,7 @@
                 </select>
                 <span>Phút</span>
             </td>
-        </tr>
+        </tr> *}-->
         <tr>
             <th>Nợ</th>
             <td colspan="3">
@@ -715,17 +715,9 @@
     </table>
 
     <div class="btn">
-        <p class="page_rows">Số lượng hiển thị
-            <!--{assign var=key value="search_page_max"}-->
-            <span class="attention"><!--{$arrErr[$key]}--></span>
-            <!--{t string="record_prefix"}-->
-            <select name="<!--{$arrForm[$key].keyname}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
-            <!--{html_options options=$arrPageMax selected=$arrForm[$key].value}-->
-            </select> 
-        </p>
         <div class="btn-area">
             <ul>
-                <li><a class="btn-action" href="javascript:;" onclick="fnFormModeSubmit('search_form', 'search', '', ''); return false;"><span class="btn-next">Tìm Kiếm</span></a></li>
+                <li><a class="btn-action" href="javascript:;" onclick="fnFormModeSubmit('search_form', 'search', '', ''); return false;"><span class="btn-next">Thống Kê</span></a></li>
             </ul>
         </div>
     </div>
@@ -748,9 +740,9 @@
         <input type="hidden" name="<!--{$key|h}-->" value="<!--{$item|h}-->" />
     <!--{/if}-->
 <!--{/foreach}-->
-    <h2>Danh Sách Kết Quả</h2>
+    <h2>Kết Quả</h2>
         <div class="btn">
-        <!--検索結果数--><!--{t string="<span class='attention'>T_ARG1 kết quả</span>&nbsp;" escape="none" T_ARG1=$tpl_linemax}-->
+        <!--検索結果数--><!--{t string="<span class='attention'>T_ARG1 Vé</span>&nbsp;" escape="none" T_ARG1=$tpl_linemax}-->
         <!--{if $smarty.const.ADMIN_MODE == '1'}-->
         <a class="btn-normal" href="javascript:;" onclick="fnModeSubmit('delete_all','',''); return false;"><span><!--{t string="tpl_Delete all search results_01"}--></span></a>
         <!--{/if}-->
@@ -761,59 +753,27 @@
     </div>
     <!--{if count($arrResults) > 0}-->
 
-    <!--{include file=$tpl_pager}-->
-
     <!--{* 検索結果表示テーブル *}-->
-        <table class="list">
-        <col width="10%" />
-        <col width="8%" />
-        <col width="15%" />
-        <col width="15%" />
-        <col width="10%" />
-        <col width="10%" />
-        <col width="10%" />
-        <col width="10%" />
-        <col width="5%" />
-        <col width="5%" />
-        <!--{* ペイジェントモジュール連携用 *}-->
-        <!--{assign var=path value=`$smarty.const.MODULE_REALDIR`mdl_paygent/paygent_order_index.tpl}-->
-        <!--{if file_exists($path)}-->
-            <!--{include file=$path}-->
-        <!--{else}-->
-        <tr>
-            <th>Ngày tạo</th>
-            <th>CODE</th>
-            <th>Khách Hàng</th>
-            <th>Hành Trình</th>
-            <th>Giờ Bay</th>
-            <th>NV Đặt</th>
-            <th>Trạng Thái</th>
-            <th>Số Điện Thoại</th>
-            <th>Sửa</th>
-            <th>Xóa</th>
-        </tr>
-
-        <!--{section name=cnt loop=$arrResults}-->
-        <!--{assign var=status value="`$arrResults[cnt].status`"}-->
-        <tr style="background:<!--{$arrORDERSTATUS_COLOR[$status]}-->;">
-            <td class="center"><!--{$arrResults[cnt].create_date|sfDispDBDate}--></td>
-            <td class="center"><!--{$arrResults[cnt].order_code}--></td>
-            <td><!--{$arrResults[cnt].order_name01|h}--> <!--{$arrResults[cnt].order_name02|h}--></td>
-            <td><!--{$arrResults[cnt].order_dept|h}--> - <!--{$arrResults[cnt].order_arriv|h}--></td>
-            <td class="center">
-                <span><!--{$arrResults[cnt].start_date|sfDispDBDate:false}--></span>
-                <span><!--{$arrResults[cnt].start_time}--></span>
-            </td>
-            <!--{assign var=member value="`$arrResults[cnt].creator_id`"}-->
-            <td><!--{$arrMembers[$member]}--></td>
-            <td><!--{$arrORDERSTATUS[$status]}--></td>
-            <td class="center"><!--{$arrResults[cnt].order_tel}--></td>
-            <td class="center"><a href="?" onclick="fnChangeAction('<!--{$smarty.const.ADMIN_ORDER_EDIT_URLPATH}-->'); fnModeSubmit('pre_edit', 'order_id', '<!--{$arrResults[cnt].order_id}-->'); return false;"><span class="icon_edit">Sửa</span></a></td>
-            <td class="center"><a href="?" onclick="fnModeSubmit('delete_order', 'order_id', <!--{$arrResults[cnt].order_id}-->); return false;"><span class="icon_delete">Xóa</span></a></td>
-        </tr>
-        <!--{/section}-->
-        <!--{/if}-->
-    </table>
+        <table>
+            <tr>
+                <th>Doanh Thu</th>
+                <td>
+                    <!--{$income|n2s}--> VND
+                </td>
+            </tr>
+            <tr>
+                <th>Lãi (Dự kiến) </th>
+                <td>
+                <!--{$earning|n2s}--> VND
+                </td>
+            </tr>
+            <tr>
+                <th>Nợ</th>
+                <td>
+                    <!--{$debt|n2s}--> VND
+                </td>
+            </tr>
+        </table>
     <!--{* 検索結果表示テーブル *}-->
 
     <!--{/if}-->
