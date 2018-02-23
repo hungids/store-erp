@@ -42,6 +42,14 @@
         return false;
     }
 
+    function fnBook(customer_id) {
+        document.form1.action = '../order/edit.php';
+        document.form1.mode.value = "customer_book"
+        document.form1['edit_customer_id'].value = customer_id;
+        document.form1.submit();
+        return false;
+    }
+
     function fnReSendMail(customer_id) {
         if (confirm('<!--{t string="tpl_Do you wish to receive a temporary registration e-mail again?_01"}-->')) {
             document.form1.mode.value = "resend_mail"
@@ -572,13 +580,14 @@
 
     <!--検索結果表示テーブル-->
     <table class="list" id="customer-search-result">
-        <col width="8%" />
-        <col width="18%" />
+        <col width="5%" />
+        <col width="15%" />
         <col width="25%" />
         <col width="10%" />
         <col width="25%" />
         <col width="7%" />
         <col width="7%" />
+        <col width="6%" />
         <tr>
             <th rowspan="2">Mã KH</th>
             <th rowspan="2">Tên</th>
@@ -587,19 +596,21 @@
             <th>Số Điện Thoại</th>
             <th rowspan="2">Sửa</th>
             <th rowspan="2">Xóa</th>
+            <th rowspan="2">Đặt Vé</th>
         </tr>
         <tr>
             <th>Email</th>
         </tr>
         <!--{foreach from=$arrData item=row}-->
             <tr>
-                <td rowspan="2"><!--{$row.customer_id|h}--></td>
+                <td class="center" rowspan="2"><!--{$row.customer_id|h}--></td>
                 <td rowspan="2"><!--{$row.name01|h}--> <!--{$row.name02|h}--></td>
                 <td class="center" rowspan="2"><!--{$row.note|h}--></td>
                 <td class="center" rowspan="2"><!--{$row.debt_total|n2s}--></td>
                 <td><!--{$row.tel|h}--></td>
                 <td class="center" rowspan="2"><span class="icon_edit"><a href="#" onclick="return fnEdit('<!--{$row.customer_id|h}-->');">Sửa</a></span></td>
                 <td class="center" rowspan="2"><span class="icon_delete"><a href="#" onclick="return fnDelete('<!--{$row.customer_id|h}-->');">Xóa</a></span></td>
+                <td class="center" rowspan="2"><span class="icon_delete"><a href="#" onclick="return fnBook('<!--{$row.customer_id|h}-->');">Đặt Vé</a></span></td>
             </tr>
             <tr>
                 <td><!--{mailto address=$row.email encode="javascript"}--></a><!--{if $row.status eq 1}--><br /><a href="#" onclick="return fnReSendMail('<!--{$row.customer_id|h}-->');"><!--{t string="tpl_Resending temporary registration e-mail_01"}--></a><!--{/if}--></td>

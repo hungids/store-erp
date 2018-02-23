@@ -166,6 +166,10 @@ class LC_Page_Admin_Order_Edit extends LC_Page_Admin_Order_Ex {
             case 'pre_edit':
             case 'order_id':
                 break;
+            case 'customer_book':
+                $this->setCustomerTo($objFormParam->getValue('edit_customer_id'),
+                    $objFormParam);
+                break;
 
             case 'edit':
                 $_POST['is_export'] = $_POST['is_export'] ? 1 : 0;
