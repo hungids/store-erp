@@ -683,7 +683,7 @@
             </td>
         </tr>
         <tr>
-            <th>Trạng Thái Thanh Toán</th>
+            <th>Phương Pháp Thanh Toán</th>
             <td colspan="3">
                 <!--{assign var=key value="search_payments_status"}-->
                 <span class="attention"><!--{$arrErr[$key]|h}--></span>

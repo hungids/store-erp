@@ -284,6 +284,7 @@
 
     <!--▼お客様情報ここから-->
     <table class="form">
+        <!--{if $arrForm.order_id.value > 0}-->
         <tr>
             <th>ID</th>
             <td><!--{$arrForm.order_id.value|h}--></td>
@@ -297,6 +298,7 @@
             <!--{assign var=key value=$arrForm.creator_id.value}-->
             <td><!--{$arrMembers[$key]}--><input type="hidden" name="creator_id" value="<!--{$arrForm.creator_id.value|h}-->" /></td>
         </tr>
+        <!--{/if}-->
         <tr>
             <th>Mã CODE</th>
             <td>
@@ -403,7 +405,7 @@
             </td>
         </tr>
         <tr>
-            <th>Tình Trạng Thanh Toán</th>
+            <th>Phương Pháp Thanh Toán</th>
             <td>
                 <!--{assign var=key1 value="payment_status"}-->
                 <span class="attention"><!--{$arrErr[$key1]}--></span>
@@ -522,10 +524,12 @@
                 <input type="text" name="<!--{$key}-->" value="<!--{$arrForm[$key].value|h}-->" size="60" class="box60" maxlength="<!--{$arrForm[$key].length}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->" />
             </td>
         </tr>
+        <!--{if !$arrForm.order_id.value}-->
         <tr>
             <th>Ghi Chú</th>
             <td><!--{$arrForm.message.value|h|nl2br}--></td>
         </tr>
+        <!--{/if}-->
     </table>
     <!--▲お客様情報ここまで-->
 
