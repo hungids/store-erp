@@ -75,7 +75,7 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex {
     function action() {
 
         // Update status
-        $this->updateStatusBefore1Day();
+        $this->updateStatusTicket();
 
         $objDb = new SC_Helper_DB_Ex();
 
@@ -251,23 +251,33 @@ class LC_Page_Admin_Order_Status extends LC_Page_Admin_Ex {
         return true;
     }
 
-    // Update status before 1 day
-    function updateStatusBefore1Day() {
+    // Update status
+    function updateStatusTicket() {
         $objQuery =& SC_Query_Ex::getSingletonInstance();
 
+        // Change from ve chua bay -> ve sap bay
         $datetime = new DateTime('tomorrow');
         $datetime = $datetime->format('Y-m-d H:i:s');
 
         $arrOrders = $objQuery->select('order_id', 'dtb_order', 'status = ? AND start_date = ?', array(ORDER_PAY_WAIT, $datetime));
-        if (!isset($arrOrders) || !is_array($arrOrders)) {
-            return false;
-        }
-
         $arrUpdate = array(
             'status' => ORDER_BACK_ORDER,
         );
 
         $objQuery->begin();
+
+        foreach ($arrOrders as $arrOrder) {
+            $objQuery->update('dtb_order', $arrUpdate, 'order_id = ?', array($arrOrder['order_id']));
+        }
+
+        // Change to ve da bay
+        $today = new DateTime('today');
+        $today = $today->format('Y-m-d H:i:s');
+
+        $arrOrders = $objQuery->select('order_id', 'dtb_order', 'status <> ? AND start_date < ?', array(ORDER_CANCEL, $today));
+        $arrUpdate = array(
+            'status' => ORDER_DELIV,
+        );
 
         foreach ($arrOrders as $arrOrder) {
             $objQuery->update('dtb_order', $arrUpdate, 'order_id = ?', array($arrOrder['order_id']));
