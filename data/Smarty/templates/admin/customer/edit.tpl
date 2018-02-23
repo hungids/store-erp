@@ -108,10 +108,10 @@
 	};
 	
 	function setDatecustomer_edit(dateText){
-	var dates = dateText.split('/');
-	$("*[name=year]").val(dates[0]);
-	$("*[name=month]").val(dates[1]);
-	$("*[name=day]").val(dates[2]);
+	    var dates = dateText.split('/');
+	    $("*[name=year]").val(dates[0]);
+	    $("*[name=month]").val(dates[1]);
+	    $("*[name=day]").val(dates[2]);
 	}
 //-->
 </script>
@@ -163,7 +163,7 @@
                 <th>Họ và Tên</th>
                 <td>
                     <span class="attention"><!--{$arrErr.name01}--><!--{$arrErr.name02}--></span>
-                    <input type="text" name="name01" value="<!--{$arrForm.name01|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="28" class="box28" <!--{if $arrErr.name01 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />&nbsp;&nbsp;<input type="text" name="name02" value="<!--{$arrForm.name02|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="28" class="box28" <!--{if $arrErr.name02 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
+                    <input type="text" name="name01" value="<!--{$arrForm.name01|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="29" class="box29" <!--{if $arrErr.name01 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />&nbsp;---&nbsp;<input type="text" name="name02" value="<!--{$arrForm.name02|h}-->" maxlength="<!--{$smarty.const.STEXT_LEN}-->" size="29" class="box29" <!--{if $arrErr.name02 != ""}--><!--{sfSetErrorStyle}--><!--{/if}--> />
                 </td>
             </tr>
             <tr>
