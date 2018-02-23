@@ -493,7 +493,7 @@
                 <!--{assign var=key1 value="order_name01"}-->
                 <!--{assign var=key2 value="order_name02"}-->
                 <span class="attention"><!--{$arrErr[$key1]}--><!--{$arrErr[$key2]}--></span>
-                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="15" class="box15" />
+                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="15" class="box15" />--
                 <input type="text" name="<!--{$key2}-->" value="<!--{$arrForm[$key2].value|h}-->" maxlength="<!--{$arrForm[$key2].length}-->" style="<!--{$arrErr[$key2]|sfGetErrorColor}-->" size="15" class="box15" />
             </td>
         </tr>
@@ -502,7 +502,7 @@
             <td>
                 <!--{assign var=key1 value="order_email"}-->
                 <span class="attention"><!--{$arrErr[$key1]}--></span>
-                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="30" class="box30" />
+                <input type="text" name="<!--{$key1}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="35" class="box35" />
             </td>
         </tr>
         <tr>
@@ -510,7 +510,7 @@
             <td>
                 <!--{assign var=key1 value="order_tel"}-->
                 <span class="attention"><!--{$arrErr[$key1]}--></span>
-                <input type="text" name="<!--{$arrForm[$key1].keyname}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="40" class="box40" />
+                <input type="text" name="<!--{$arrForm[$key1].keyname}-->" value="<!--{$arrForm[$key1].value|h}-->" maxlength="<!--{$arrForm[$key1].length}-->" style="<!--{$arrErr[$key1]|sfGetErrorColor}-->" size="35" class="box35" />
             </td>
         </tr>
         <tr>
