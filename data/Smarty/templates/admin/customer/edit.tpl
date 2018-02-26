@@ -29,8 +29,8 @@
         document.search_form.submit();
         return false;
     }
-	
-	$(function(){
+
+    $(function(){
         var dateFormat = $.datepicker.regional['<!--{$smarty.const.LANG_CODE}-->'].dateFormat;
 
         <!--{if $arrForm.year != '' && $arrForm.month != '' && $arrForm.day != ''}-->
@@ -42,29 +42,29 @@
         // console.log(ymd);
         <!--{/if}-->
 
-		$( "#datepickercustomer_edit" ).datepicker({
-		beforeShowDay: function(date) {
-			if(date.getDay() == 0) {
-				return [true,"date-sunday"]; 
-			} else if(date.getDay() == 6){
-				return [true,"date-saturday"];
-			} else {
-				return [true];
-			}
-		},changeMonth: 'true'
-		,changeYear: 'true'
-		,onSelect: function(dateText, inst){
+        $( "#datepickercustomer_edit" ).datepicker({
+        beforeShowDay: function(date) {
+            if(date.getDay() == 0) {
+                return [true,"date-sunday"]; 
+            } else if(date.getDay() == 6){
+                return [true,"date-saturday"];
+            } else {
+                return [true];
+            }
+        },changeMonth: 'true'
+        ,changeYear: 'true'
+        ,onSelect: function(dateText, inst){
             var year  = inst.selectedYear;
             var month = inst.selectedMonth + 1;
             var day   = inst.selectedDay;
-			setDatecustomer_edit(year + '/' + month + '/' + day);
-		},
-		showButtonPanel: true,
-		beforeShow: showAdditionalButtoncustomer_edit,       
-		onChangeMonthYear: showAdditionalButtoncustomer_edit
-		});
-		
-		$("#datepickercustomer_edit").change( function() {
+            setDatecustomer_edit(year + '/' + month + '/' + day);
+        },
+        showButtonPanel: true,
+        beforeShow: showAdditionalButtoncustomer_edit,       
+        onChangeMonthYear: showAdditionalButtoncustomer_edit
+        });
+
+        $("#datepickercustomer_edit").change( function() {
             var dateText   = $(this).val();
             var dateFormat = $.datepicker.regional['<!--{$smarty.const.LANG_CODE}-->'].dateFormat;
             // console.log(dateText);
@@ -84,35 +84,35 @@
                 $(this).val('');
             }
             setDatecustomer_edit(year + '/' + month + '/' + day);
-		});
-		
-	});
-	
-	var btn = $('<button class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all" type="button">Clear</button>');
-	
-	var showAdditionalButtoncustomer_edit = function (input) {
-		setTimeout(function () {
-			var buttonPane = $(input)
-					 .datepicker("widget")
-					 .find(".ui-datepicker-buttonpane");
-			btn
-					.unbind("click")
-					.bind("click", function () {
-						$.datepicker._clearDate(input);
-						$("*[name=year]").val("");
-						$("*[name=month]").val("");
-						$("*[name=day]").val("");
-					});
-			btn.appendTo(buttonPane);
-		}, 1);
-	};
-	
-	function setDatecustomer_edit(dateText){
-	    var dates = dateText.split('/');
-	    $("*[name=year]").val(dates[0]);
-	    $("*[name=month]").val(dates[1]);
-	    $("*[name=day]").val(dates[2]);
-	}
+        });
+        
+    });
+
+    var btn = $('<button class="ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all" type="button">Clear</button>');
+
+    var showAdditionalButtoncustomer_edit = function (input) {
+        setTimeout(function () {
+            var buttonPane = $(input)
+                     .datepicker("widget")
+                     .find(".ui-datepicker-buttonpane");
+            btn
+                    .unbind("click")
+                    .bind("click", function () {
+                        $.datepicker._clearDate(input);
+                        $("*[name=year]").val("");
+                        $("*[name=month]").val("");
+                        $("*[name=day]").val("");
+                    });
+            btn.appendTo(buttonPane);
+        }, 1);
+    };
+
+    function setDatecustomer_edit(dateText){
+        var dates = dateText.split('/');
+        $("*[name=year]").val(dates[0]);
+        $("*[name=month]").val(dates[1]);
+        $("*[name=day]").val(dates[2]);
+    }
 //-->
 </script>
 
@@ -154,10 +154,10 @@
     <div id="customer" class="contents-main">
         <table class="form">
             <!--{if $arrForm.customer_id}-->
-            <tr>
-                <th>Mã khách hàng</th>
-                <td><!--{$arrForm.customer_id|h}--></td>
-            </tr>
+                <tr>
+                    <th>Mã khách hàng</th>
+                    <td><!--{$arrForm.customer_id|h}--></td>
+                </tr>
             <!--{/if}-->
             <tr>
                 <th>Họ và Tên</th>
@@ -210,37 +210,39 @@
         <input type="hidden" name="search_pageno" value="<!--{$tpl_pageno}-->">
         <input type="hidden" name="edit_customer_id" value="<!--{$edit_customer_id}-->" >
 
-        <h1>Vé Đã Mua</h1>
-        <!--{if $tpl_linemax > 0}-->
-        <p><!--購入履歴一覧--><!--{t string="<span class='attention'>T_ARG1 kết quả</span>&nbsp;" escape="none" T_ARG1=$tpl_linemax}--></p>
+        <!--{if $arrForm.customer_id}-->
+            <h1>Vé Đã Mua</h1>
+            <!--{if $tpl_linemax > 0}-->
+                <p><!--購入履歴一覧--><!--{t string="<span class='attention'>T_ARG1 kết quả</span>&nbsp;" escape="none" T_ARG1=$tpl_linemax}--></p>
 
-        <!--{include file=$tpl_pager}-->
+                <!--{include file=$tpl_pager}-->
 
-            <!--{* 購入履歴一覧表示テーブル *}-->
-            <table class="list">
-                <tr>
-                    <th>Ngày Đặt</th>
-                    <th>CODE</th>
-                    <th>Hành Trình</th>
-                    <th>Ngày Bay</th>
-                    <th>Thanh Toán</th>
-                    <th>Ghi Chú Hành Khách</th>
-                </tr>
-                <!--{section name=cnt loop=$arrPurchaseHistory}-->
+                <!--{* 購入履歴一覧表示テーブル *}-->
+                <table class="list">
                     <tr>
-                        <td><!--{$arrPurchaseHistory[cnt].create_date|sfDispDBDate}--></td>
-                        <td class="center"><a href="../order/edit.php?order_id=<!--{$arrPurchaseHistory[cnt].order_id}-->" ><!--{$arrPurchaseHistory[cnt].order_code}--></a></td>
-                        <td class="center"><!--{$arrPurchaseHistory[cnt].order_dept|h}--> - <!--{$arrPurchaseHistory[cnt].order_arriv|h}--></td>
-                        <td class="center"><!--{$arrPurchaseHistory[cnt].start_date|sfDispDBDate:false}--> - <!--{$arrPurchaseHistory[cnt].start_time}--></td>
-                        <!--{assign var=key value=`$arrPurchaseHistory[cnt].debt_status`}-->
-                        <td class="center"><!--{$arrDebtStatus[$key]|h}--></td>
-                        <td class="center"><!--{$arrPurchaseHistory[cnt].memo02|h}--></td>
+                        <th>Ngày Đặt</th>
+                        <th>CODE</th>
+                        <th>Hành Trình</th>
+                        <th>Ngày Bay</th>
+                        <th>Thanh Toán</th>
+                        <th>Ghi Chú Hành Khách</th>
                     </tr>
-                <!--{/section}-->
-            </table>
-            <!--{* 購入履歴一覧表示テーブル *}-->
-        <!--{else}-->
-            <div class="message"><!--{t string="tpl_There is no purchase history_01"}--></div>
+                    <!--{section name=cnt loop=$arrPurchaseHistory}-->
+                        <tr>
+                            <td><!--{$arrPurchaseHistory[cnt].create_date|sfDispDBDate}--></td>
+                            <td class="center"><a href="../order/edit.php?order_id=<!--{$arrPurchaseHistory[cnt].order_id}-->" ><!--{$arrPurchaseHistory[cnt].order_code}--></a></td>
+                            <td class="center"><!--{$arrPurchaseHistory[cnt].order_dept|h}--> - <!--{$arrPurchaseHistory[cnt].order_arriv|h}--></td>
+                            <td class="center"><!--{$arrPurchaseHistory[cnt].start_date|sfDispDBDate:false}--> - <!--{$arrPurchaseHistory[cnt].start_time}--></td>
+                            <!--{assign var=key value=`$arrPurchaseHistory[cnt].debt_status`}-->
+                            <td class="center"><!--{$arrDebtStatus[$key]|h}--></td>
+                            <td class="center"><!--{$arrPurchaseHistory[cnt].memo02|h}--></td>
+                        </tr>
+                    <!--{/section}-->
+                </table>
+                <!--{* 購入履歴一覧表示テーブル *}-->
+            <!--{else}-->
+                <div class="message">Chưa Có</div>
+            <!--{/if}-->
         <!--{/if}-->
 
     </div>
