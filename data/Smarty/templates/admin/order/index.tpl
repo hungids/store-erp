@@ -694,11 +694,9 @@
 
     <div class="btn">
         <p class="page_rows">Số lượng hiển thị
-            <!--{assign var=key value="search_page_max"}-->
-            <span class="attention"><!--{$arrErr[$key]}--></span>
             <!--{t string="record_prefix"}-->
-            <select name="<!--{$arrForm[$key].keyname}-->" style="<!--{$arrErr[$key]|sfGetErrorColor}-->">
-            <!--{html_options options=$arrPageMax selected=$arrForm[$key].value}-->
+            <select name="search_page_max">
+                <!--{html_options options=$arrPageMax selected=$arrForm.search_page_max}-->
             </select> 
         </p>
         <div class="btn-area">
