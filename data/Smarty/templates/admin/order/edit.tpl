@@ -471,9 +471,7 @@
     </table>
 
     <h2>Thông Tin Khách Hàng
-        <!--{if $tpl_mode == 'add'}-->
-            <a class="btn-normal" href="javascript:;" name="address_input" onclick="fnOpenWindow('<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->customer/search_customer.php','search','600','650'); return false;">Tìm Kiếm</a>
-        <!--{/if}-->
+        <a class="btn-normal" href="javascript:;" name="address_input" onclick="fnOpenWindow('<!--{$smarty.const.ROOT_URLPATH}--><!--{$smarty.const.ADMIN_DIR}-->customer/search_customer.php','search','600','650'); return false;">Chọn</a>
     </h2>
     <table class="form">
         <tr>
