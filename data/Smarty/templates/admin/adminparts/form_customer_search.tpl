@@ -51,3 +51,11 @@
         <!--{if $arrErr[$key]}--><span class="attention"><!--{$arrErr[$key]}--></span><br /><!--{/if}-->
         <input type="text" name="<!--{$key}-->" maxlength="<!--{$arrForm[$key].length}-->" value="<!--{$arrForm[$key].value|h}-->" size="60" class="box60" /></td>
 </tr>
+<tr>
+    <th>Nợ</th>
+    <td colspan="3">
+        <!--{assign var=key value="search_debt"}-->
+        <span class="attention"><!--{$arrErr[$key]}--></span>
+        <!--{html_radios name="$key" options=$arrDebtStatus selected=$arrForm[$key].value separator=' '}-->
+    </td>
+</tr>

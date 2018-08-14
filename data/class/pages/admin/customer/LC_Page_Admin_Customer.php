@@ -58,6 +58,7 @@ class LC_Page_Admin_Customer extends LC_Page_Admin_Ex {
         $this->arrPageMax = $masterData->getMasterData('mtb_page_max');
         $this->arrStatus = $masterData->getMasterData('mtb_customer_status');
         $this->arrMagazineType = $masterData->getMasterData('mtb_magazine_type');
+        $this->arrDebtStatus = $masterData->getMasterData('mtb_debt_status');
 
         // 日付プルダウン設定
         $objDate = new SC_Date_Ex();

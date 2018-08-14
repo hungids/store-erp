@@ -50,7 +50,7 @@ class SC_CustomerList extends SC_SelectSql_Ex {
         // 会員ID
         if (!isset($this->arrSql['search_customer_id'])) $this->arrSql['search_customer_id'] = '';
         if (strlen($this->arrSql['search_customer_id']) > 0) {
-            $this->setWhere('customer_id =  ?');
+            $this->setWhere('C.customer_id =  ?');
             $this->arrVal[] = $this->arrSql['search_customer_id'];
         }
 
@@ -83,6 +83,16 @@ class SC_CustomerList extends SC_SelectSql_Ex {
             $this->setWhere('( tel LIKE ?)');
             $searchTel = $this->addSearchStr($this->arrSql['search_tel']);
             $this->arrVal[] = str_replace('-', '', $searchTel);
+        }
+
+        // Debt
+        if (!isset($this->arrSql['search_debt'])) $this->arrSql['search_debt'] = '';
+        if (strlen($this->arrSql['search_debt']) > 0) {
+            if ($this->arrSql['search_debt'] == 1) {
+                $this->setWhere('C.customer_id IN (SELECT customer_id FROM dtb_order WHERE debt_status = 1 AND del_flg = 0)');
+            } else {
+                $this->setWhere('C.customer_id NOT IN (SELECT customer_id FROM dtb_order WHERE debt_status = 1 AND del_flg = 0)');
+            }
         }
 
         // 性別
@@ -120,15 +130,15 @@ class SC_CustomerList extends SC_SelectSql_Ex {
                 //検索条件を含まない
                 if ($this->arrSql['not_emailinc'] == '1') {
                     if ($sql_where == '') {
-                        $sql_where .= 'dtb_customer.email NOT ILIKE ? ';
+                        $sql_where .= 'C.email NOT ILIKE ? ';
                     } else {
-                        $sql_where .= 'AND dtb_customer.email NOT ILIKE ? ';
+                        $sql_where .= 'AND C.email NOT ILIKE ? ';
                     }
                 } else {
                     if ($sql_where == '') {
-                        $sql_where .= 'dtb_customer.email ILIKE ? ';
+                        $sql_where .= 'C.email ILIKE ? ';
                     } else {
-                        $sql_where .= 'OR dtb_customer.email ILIKE ? ';
+                        $sql_where .= 'OR C.email ILIKE ? ';
                     }
                 }
                 $searchEmail = $this->addSearchStr($val);
@@ -329,9 +339,9 @@ class SC_CustomerList extends SC_SelectSql_Ex {
     function getList() {
         $this->select = <<< __EOS__
     SELECT 
-    C.*, O.debt_total 
+    C.*, O.debt_total, O.debt_status 
     FROM dtb_customer C 
-        LEFT JOIN (SELECT customer_id, sum(debt_amount) AS debt_total 
+        LEFT JOIN (SELECT customer_id, debt_status, sum(debt_amount) AS debt_total 
                     FROM dtb_order 
                     WHERE debt_status = 1 AND del_flg = 0 
                     GROUP BY customer_id) O 
@@ -354,7 +364,7 @@ __EOS__;
 
     // 検索総数カウント用SQL
     function getListCount() {
-        $this->select = 'SELECT COUNT(customer_id) FROM dtb_customer ';
+        $this->select = 'SELECT COUNT(customer_id) FROM dtb_customer C ';
         return $this->getSql(1);
     }
 
