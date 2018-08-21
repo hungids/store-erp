@@ -585,6 +585,12 @@
             </td>
         </tr>
         <tr>
+            <th>Tổng Vé Chưa Xuất</th>
+            <td>
+                <!--{$arrTotalExportTicket|n2s}--> VND
+            </td>
+        </tr>
+        <tr>
             <th>Tổng Lãi (Dự kiến) </th>
             <td>
                 <!--{$arrTotalEarn|n2s}--> VND

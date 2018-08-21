@@ -540,6 +540,8 @@ class LC_Page_Admin_Account_Ex extends LC_Page_Admin_Ex {
         //検索結果の取得
         $total_income = $objQuery->select('SUM(price_sale) as total_income', 'dtb_order', 'del_flg = 0');
         $this->arrTotalIncome = $total_income[0]['total_income'];
+        $total_export_tick = $objQuery->select('SUM(price_sale) as total_export', 'dtb_order', 'status = 1 AND del_flg = 0');
+        $this->arrTotalExportTicket = $total_export_tick[0]['total_export'];
         $total_earn = $objQuery->select('SUM(earning) as total_earning', 'dtb_order', 'del_flg = 0');
         $this->arrTotalEarn = $total_earn[0]['total_earning'];
         $total_debt = $objQuery->select('SUM(debt_amount) as total_debt', 'dtb_order', 'del_flg = 0 AND debt_status = 1');
